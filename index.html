@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio & Rekber Resmi - Rifqy Sahda Pratama</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        html { background-color: #04080f; overscroll-behavior-y: none; }
+        body { font-family: 'Inter', sans-serif; background-color: transparent; color: #f3f4f6; overflow-x: hidden; }
+        
+        /* Kunci Background saat Modal / Admin Panel Terbuka */
+        body.modal-open { overflow: hidden !important; touch-action: none; }
+        #adminPanel { overscroll-behavior: contain; }
+
+        /* Digital Background Baru (Cyber Lines & Crosses) */
+        .cyber-grid-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; background-color: #04080f; overflow: hidden; pointer-events: none; }
+        .grid-plane { position: absolute; bottom: -10%; left: -50%; width: 200%; height: 100vh; background-image: linear-gradient(to right, rgba(59, 130, 246, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(59, 130, 246, 0.2) 1px, transparent 1px); background-size: 60px 60px; mask-image: linear-gradient(to top, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%); -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%); will-change: transform; animation: move-grid 3s linear infinite; transform-origin: center bottom; }
+        @keyframes move-grid { 0% { transform: perspective(500px) rotateX(75deg) translateY(0); } 100% { transform: perspective(500px) rotateX(75deg) translateY(60px); } }
+        
+        /* Efek Garis Data Matrix */
+        .cyber-line { position: absolute; width: 2px; height: 150px; background: linear-gradient(to bottom, transparent, #06b6d4, transparent); animation: fall-line linear infinite; opacity: 0; z-index: 0;}
+        @keyframes fall-line { 0% { transform: translateY(-100vh); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(100vh); opacity: 0; } }
+        
+        /* Efek Ornamen Cross Digital */
+        .digital-cross { position: absolute; width: 16px; height: 16px; opacity: 0.2; animation: spin-cross 15s linear infinite; z-index: 0;}
+        .digital-cross::before, .digital-cross::after { content: ''; position: absolute; background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
+        .digital-cross::before { top: 7px; left: 0; width: 16px; height: 2px; }
+        .digital-cross::after { top: 0; left: 7px; width: 2px; height: 16px; }
+        @keyframes spin-cross { 100% { transform: rotate(360deg); } }
+
+        /* Glassmorphism */
+        .glass-panel { background: rgba(10, 15, 30, 0.75); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border: 1px solid rgba(147, 197, 253, 0.12); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); }
+        .glass-card { background: rgba(15, 20, 35, 0.85); border: 1px solid rgba(147, 197, 253, 0.08); transition: border-color 0.3s ease; }
+        .glass-card:hover { border-color: rgba(96, 165, 250, 0.4); }
+        .glass-modal { background: rgba(10, 15, 31, 0.98); border: 1px solid rgba(59, 130, 246, 0.4); }
+
+        /* Animations */
+        @keyframes soft-pulse { 0% { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(52, 211, 153, 0); } 100% { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); } }
+        .pulse-green { animation: soft-pulse 2s infinite; }
+        
+        .cyber-pulse-icon { position: absolute; top: 10px; right: 10px; width: 12px; height: 12px; background-color: #3b82f6; border-radius: 50%; box-shadow: 0 0 10px #3b82f6; animation: soft-pulse 1.5s infinite; z-index: 20; }
+        .cyber-pulse-icon::after { content: ''; position: absolute; inset: -4px; border: 1px solid #60a5fa; border-radius: 50%; animation: spin-normal 3s linear infinite; }
+
+        @keyframes spin-normal { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+        
+        /* Global Animasi Semua Icon Digital */
+        main i.fa-solid:not(.fa-chevron-down, .fa-star), main i.fa-brands {
+            animation: digital-icon-pulse 3s infinite alternate ease-in-out;
+            display: inline-block;
+        }
+        @keyframes digital-icon-pulse {
+            0% { filter: drop-shadow(0 0 2px currentColor); transform: translateY(0px); }
+            100% { filter: drop-shadow(0 0 10px currentColor); transform: translateY(-3px); }
+        }
+
+        /* Foto Profil Glow Saat Diklik */
+        .glow-active { animation: profile-glow-anim 1.5s infinite alternate; }
+        @keyframes profile-glow-anim {
+            0% { box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6; border-color: #3b82f6; filter: brightness(1); transform: scale(1); }
+            100% { box-shadow: 0 0 30px #06b6d4, 0 0 60px #06b6d4; border-color: #06b6d4; filter: brightness(1.15); transform: scale(1.05); }
+        }
+        
+        .digital-ring { position: relative; width: 28px; height: 28px; border: 2px solid transparent; border-top-color: #3b82f6; border-bottom-color: #06b6d4; border-radius: 50%; animation: spin-normal 2s linear infinite; }
+        .digital-ring.emerald { border-top-color: #10b981; border-bottom-color: #34d399; }
+        .digital-ring::before { content: ''; position: absolute; top: 3px; left: 3px; right: 3px; bottom: 3px; border: 2px solid transparent; border-left-color: inherit; border-right-color: inherit; border-radius: 50%; animation: spin-reverse 1.5s linear infinite; }
+        .digital-ring::after { content: ''; position: absolute; top: 9px; left: 9px; width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px inherit; }
+
+        .scroll-popup { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+        .scroll-popup.show { opacity: 1; transform: translateY(0); }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; } 
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        ::-webkit-scrollbar { width: 4px; height: 4px; } 
+        ::-webkit-scrollbar-track { background: #050a15; } 
+        ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.5); border-radius: 4px; }
+        
+        .dropdown-options::-webkit-scrollbar { width: 4px; } 
+        .dropdown-options::-webkit-scrollbar-track { background: transparent; } 
+        .dropdown-options::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.5); border-radius: 4px; }
+
+        /* Jasa Post Horizontal Slider - Lebih Proporsional */
+        .slider-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1.5rem; padding-bottom: 1.5rem; padding-top: 0.5rem; }
+        .slider-item { scroll-snap-align: center; flex-shrink: 0; width: 280px; }
+        @media (min-width: 640px) { .slider-item { width: 320px; } }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease-out; } 
+        .tab-content.active { display: block; }
+        .tab-btn { white-space: nowrap; border: 1px solid transparent; } 
+        .tab-btn.active { background-color: #2563eb; color: white; border-color: #2563eb; box-shadow: 0 0 15px rgba(37,99,235,0.4); }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        details > summary { list-style: none; } 
+        details > summary::-webkit-details-marker { display: none; }
+        
+        .terminal-text { overflow: hidden; white-space: nowrap; border-right: 2px solid #10b981; animation: typing 1s steps(30, end), blink-caret .5s step-end infinite; }
+        @keyframes typing { from { width: 0 } to { width: 100% } } 
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #10b981 } }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 selection:bg-blue-500 selection:text-white relative">
+
+    <div id="flash-banner" class="hidden w-full bg-[#1e3a8a] border-b border-blue-400/20 text-white text-center py-2 px-4 text-xs sm:text-sm font-medium sticky top-0 z-40 shadow-lg">
+        <div class="flex items-center justify-center gap-2 max-w-5xl mx-auto">
+            <i class="fa-solid fa-bolt text-yellow-300 animate-pulse" style="animation: none;"></i>
+            <span id="flash-text" class="tracking-wide"></span>
+            <i class="fa-solid fa-bolt text-yellow-300 animate-pulse" style="animation: none;"></i>
+        </div>
+    </div>
+
+    <!-- Background Elements Animasi Baru -->
+    <div class="cyber-grid-bg">
+        <div class="grid-plane"></div>
+        <!-- Cyber Lines -->
+        <div class="cyber-line" style="left: 15%; animation-duration: 4s; animation-delay: 1s;"></div>
+        <div class="cyber-line" style="left: 45%; animation-duration: 6s; animation-delay: 3s;"></div>
+        <div class="cyber-line" style="left: 75%; animation-duration: 5s; animation-delay: 0s;"></div>
+        <div class="cyber-line" style="left: 90%; animation-duration: 7s; animation-delay: 2s;"></div>
+        <!-- Digital Crosses -->
+        <div class="digital-cross" style="top: 20%; left: 10%;"></div>
+        <div class="digital-cross" style="top: 60%; left: 85%; animation-direction: reverse;"></div>
+        <div class="digital-cross" style="top: 80%; left: 30%;"></div>
+        <div class="digital-cross" style="top: 30%; left: 60%; animation-duration: 20s;"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#050a15]/30 to-[#050a15]/90 pointer-events-none"></div>
+    </div>
+
+    <!-- MAIN VIEW -->
+    <main class="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="main-content">
+        
+        <header class="glass-panel scroll-popup rounded-3xl p-6 sm:p-8 mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                <div class="relative">
+                    <img id="view-photo" src="" alt="Foto Profil" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-blue-400/50 shadow-lg cursor-pointer transition-all duration-300" onclick="toggleProfileGlow()">
+                    <div id="admin-status-badge" class="absolute bottom-1 right-1 bg-slate-900/90 px-2 py-1 rounded-full border flex items-center gap-1 shadow-md text-[10px] font-bold z-10"></div>
+                </div>
+                <div>
+                    <h1 id="view-name" class="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-1">Nama</h1>
+                    <p id="view-role" class="text-cyan-400 font-medium text-sm sm:text-base">Role</p>
+                    <p id="view-location" class="text-slate-300 text-xs sm:text-sm mt-1 flex items-center justify-center sm:justify-start gap-1">
+                        <i class="fa-solid fa-location-dot text-cyan-500"></i> <span id="view-loc-text">Lokasi</span>
+                    </p>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl px-6 py-4 text-center md:text-right w-full md:w-auto flex flex-col items-center md:items-end justify-center">
+                <div class="flex items-center gap-3 mb-1">
+                    <div class="digital-ring"></div>
+                    <div id="realtime-clock" class="text-2xl sm:text-3xl font-bold font-mono tracking-wider text-white">00:00:00</div>
+                </div>
+                <div class="text-[10px] uppercase tracking-widest text-blue-300 font-semibold">Waktu Indonesia Barat</div>
+            </div>
+        </header>
+
+        <section class="glass-panel scroll-popup rounded-3xl p-6 sm:p-8 mb-8 flex flex-col items-center text-center border-t-2 border-blue-500/30">
+            <h2 class="text-xl font-bold text-white mb-3 flex items-center justify-center gap-2"><i class="fa-solid fa-fingerprint text-blue-400"></i> Tentang Saya</h2>
+            <p id="view-bio" class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto"></p>
+        </section>
+
+        <!-- MARKET MONITOR (IHSG, USD, CRYPTO) -->
+        <section class="glass-panel scroll-popup rounded-3xl p-4 sm:p-6 mb-8 border border-blue-500/30 overflow-hidden relative">
+            <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-chart-line text-cyan-400"></i>
+                <h2 class="text-sm font-bold text-cyan-400">Live Market Monitor</h2>
+                <span class="ml-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1"><span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> Real-Time</span>
+            </div>
+            <div class="tradingview-widget-container border border-slate-700/50 rounded-xl overflow-hidden bg-black/40">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                {
+                  "symbols": [
+                    { "description": "IHSG", "proName": "IDX:COMPOSITE" },
+                    { "description": "USD / IDR", "proName": "FX_IDC:USDIDR" },
+                    { "description": "Bitcoin", "proName": "BINANCE:BTCIDR" },
+                    { "description": "Ethereum", "proName": "BINANCE:ETHIDR" }
+                  ],
+                  "showSymbolLogo": true,
+                  "isTransparent": true,
+                  "displayMode": "compact",
+                  "colorTheme": "dark",
+                  "locale": "id"
+                }
+                </script>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 scroll-popup">
+            <div class="glass-card rounded-2xl p-5 flex items-center gap-5 border-l-4 border-l-emerald-500 relative overflow-hidden group hover:bg-emerald-900/40 transition-colors">
+                <div class="absolute -right-4 -bottom-6 text-emerald-500/10 text-7xl transform -rotate-12 transition-transform duration-500 group-hover:scale-110"><i class="fa-solid fa-check-double"></i></div>
+                <div class="w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl relative z-10 shadow-[0_0_20px_rgba(16,185,129,0.3)]"><i class="fa-solid fa-handshake-angle"></i></div>
+                <div class="relative z-10">
+                    <div id="metric-trx" class="text-3xl font-bold text-white tracking-tight drop-shadow-md">0</div>
+                    <div class="text-[11px] uppercase tracking-wider text-emerald-400 font-bold mt-1">Transaksi Sukses</div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 flex items-center gap-5 border-l-4 border-l-red-500 relative overflow-hidden group hover:bg-red-900/40 transition-colors">
+                <div class="absolute -right-4 -bottom-6 text-red-500/10 text-7xl transform rotate-12 transition-transform duration-500 group-hover:scale-110"><i class="fa-solid fa-ban"></i></div>
+                <div class="w-14 h-14 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 text-2xl relative z-10 shadow-[0_0_20px_rgba(239,68,68,0.3)]"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="relative z-10">
+                    <div id="metric-scam" class="text-3xl font-bold text-white tracking-tight drop-shadow-md">0</div>
+                    <div class="text-[11px] uppercase tracking-wider text-red-400 font-bold mt-1">Penipu Diblokir</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blacklist Search -->
+        <section class="glass-panel scroll-popup rounded-3xl p-6 sm:p-8 mb-8 border border-red-500/30 relative overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-64 h-64 bg-red-600/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2 relative z-10">
+                <h2 class="text-xl font-bold text-red-400 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Cek Akun Bermasalah</h2>
+                <button onclick="toggleLaporForm()" class="bg-red-900/40 hover:bg-red-600 text-red-200 hover:text-white border border-red-500/40 px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5"><i class="fa-solid fa-flag"></i> Lapor Penipu</button>
+            </div>
+            <p class="text-slate-300 text-xs mb-4 relative z-10">Cek keamanan sebelum transfer! Masukkan <strong>Tagar / ID / No HP / Rekening</strong>:</p>
+            <div class="flex gap-2 relative z-10">
+                <input type="text" id="searchInput" placeholder="Cari Data Penipu..." class="w-full bg-black/60 border border-slate-600 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-red-400">
+                <button onclick="searchBlacklist()" class="bg-red-600 hover:bg-red-500 text-white px-5 py-2 rounded-xl text-sm font-medium transition shadow-lg">Cek Data</button>
+            </div>
+            <div id="searchResult" class="mt-4 text-sm hidden relative z-10 transition-all duration-300"></div>
+
+            <div id="lapor-penipu-box" class="hidden mt-6 pt-6 border-t border-red-900/50 relative z-10 bg-black/60 p-5 rounded-2xl border border-slate-700/50">
+                <h3 class="text-sm font-bold text-red-400 mb-3 flex items-center gap-2"><i class="fa-solid fa-shield-virus"></i> Form Pengaduan Penipuan</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                    <input type="text" id="lapor-id" placeholder="ID / Tagar (Wajib)" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-red-500 outline-none">
+                    
+                    <div class="relative custom-dropdown z-[50]" data-target="lapor-game">
+                        <div class="dropdown-selected w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-300 flex justify-between items-center cursor-pointer hover:border-red-500 transition">
+                            <span class="selected-text">Clash of clan</span>
+                            <i class="fa-solid fa-chevron-down text-red-400 text-[10px]"></i>
+                        </div>
+                        <div class="dropdown-options hidden absolute z-50 left-0 right-0 mt-2 bg-slate-900 border border-red-500/50 rounded-xl overflow-hidden backdrop-blur-xl">
+                            <div class="dropdown-option px-3 py-2.5 text-xs text-slate-300 hover:bg-red-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Clash of clan">Clash of clan</div>
+                            <div class="dropdown-option px-3 py-2.5 text-xs text-slate-300 hover:bg-red-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Free fire">Free fire</div>
+                            <div class="dropdown-option px-3 py-2.5 text-xs text-slate-300 hover:bg-red-600 hover:text-white cursor-pointer" data-value="Lainnya">Lainnya</div>
+                        </div>
+                        <input type="hidden" id="lapor-game" value="Clash of clan">
+                    </div>
+                    
+                    <input type="text" id="lapor-phone" placeholder="No HP Penipu" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-red-500 outline-none">
+                    <input type="text" id="lapor-payment" placeholder="No Rekening / E-Wallet" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-red-500 outline-none">
+                    <input type="text" id="lapor-reason" placeholder="Kronologi Penipuan" class="col-span-1 sm:col-span-2 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-red-500 outline-none">
+                </div>
+                <button onclick="submitLaporPenipu()" class="w-full bg-red-600 hover:bg-red-500 text-white py-2.5 rounded-xl text-xs font-bold transition mb-2">Kirim Data Pengaduan</button>
+                <button onclick="sendLaporWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl text-xs font-bold transition flex justify-center items-center gap-2"><i class="fa-brands fa-whatsapp"></i> Lampirkan Bukti ke WA</button>
+            </div>
+        </section>
+
+        <!-- SEKSI REKBER RESMI -->
+        <section class="glass-panel scroll-popup rounded-3xl p-6 sm:p-8 mb-8 border border-indigo-500/30 relative overflow-hidden">
+            <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-600/10 rounded-full blur-2xl pointer-events-none"></div>
+            <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-handshake text-blue-400"></i> Layanan Rekber Resmi</h2>
+            <p class="text-slate-300 text-xs mb-6">Transaksi jual-beli akun/produk digital aman 100% dipandu oleh Admin.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
+                <div class="glass-card border border-slate-700/80 rounded-2xl p-5 flex flex-col justify-between overflow-visible">
+                    <div>
+                        <h3 class="text-sm font-bold text-cyan-400 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-calculator"></i> Kalkulator Fee</h3>
+                        <label class="text-[11px] text-slate-400 block mb-1">Nominal (Rp)</label>
+                        <input type="number" id="calc-nominal" oninput="calculateRekberFee()" placeholder="Contoh: 250000" class="w-full bg-black/60 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:border-blue-500 outline-none mb-3">
+                        <label class="text-[11px] text-slate-400 block mb-1">Penanggung Fee</label>
+                        
+                        <div class="relative mb-4 custom-dropdown z-[60]" data-target="calc-scenario">
+                            <div class="dropdown-selected w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-blue-100 flex justify-between items-center cursor-pointer hover:border-blue-500 transition">
+                                <span class="selected-text">Ditanggung Pembeli</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-blue-400"></i>
+                            </div>
+                            <div class="dropdown-options hidden absolute z-50 left-0 right-0 mt-2 bg-slate-900 border border-blue-500/50 rounded-xl overflow-hidden backdrop-blur-xl">
+                                <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-blue-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Pembeli">Ditanggung Pembeli</div>
+                                <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-blue-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Penjual">Ditanggung Penjual</div>
+                                <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-blue-600 hover:text-white cursor-pointer" data-value="5050">Dibagi 2 (50:50)</div>
+                            </div>
+                            <input type="hidden" id="calc-scenario" value="Pembeli" onchange="calculateRekberFee()">
+                        </div>
+                        
+                        <div class="bg-blue-950/40 border border-blue-800/40 rounded-xl p-3 space-y-2 text-xs relative z-0">
+                            <div class="flex justify-between"><span class="text-slate-400">Total Fee:</span><span id="calc-res-fee" class="font-bold text-cyan-400">Rp 0</span></div>
+                            <div class="border-t border-blue-900/50 pt-2 flex justify-between font-bold"><span class="text-white">Pembeli Transfer:</span><span id="calc-res-total" class="text-emerald-400">Rp 0</span></div>
+                            <div class="flex justify-between font-bold"><span class="text-white">Penjual Terima:</span><span id="calc-res-seller" class="text-blue-400">Rp 0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card border border-slate-700/80 rounded-2xl p-5 lg:col-span-2 overflow-visible">
+                    <h3 class="text-sm font-bold text-blue-400 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-file-signature"></i> Form Pengajuan Rekber Baru</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <input type="text" id="rekber-buyer" placeholder="Nama Pembeli" class="bg-black/60 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-blue-500 outline-none">
+                        <input type="text" id="rekber-seller" placeholder="Nama Penjual" class="bg-black/60 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-blue-500 outline-none">
+                        <input type="text" id="rekber-item" placeholder="Detail Barang / Akun" class="col-span-1 sm:col-span-2 bg-black/60 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-blue-500 outline-none">
+                        <input type="number" id="rekber-nominal-input" placeholder="Nominal (Rp)" class="bg-black/60 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-blue-500 outline-none">
+                        
+                        <div class="relative custom-dropdown z-[50]" data-target="rekber-scenario-input">
+                            <div class="dropdown-selected w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white flex justify-between items-center cursor-pointer hover:border-blue-500 transition">
+                                <span class="selected-text">Fee Ditanggung Pembeli</span>
+                                <i class="fa-solid fa-chevron-down text-blue-400 text-[10px]"></i>
+                            </div>
+                            <div class="dropdown-options hidden absolute z-50 left-0 right-0 mt-2 bg-slate-900 border border-blue-500/50 rounded-xl overflow-hidden backdrop-blur-xl">
+                                <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-blue-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Pembeli">Fee Ditanggung Pembeli</div>
+                                <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-blue-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Penjual">Fee Ditanggung Penjual</div>
+                                <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-blue-600 hover:text-white cursor-pointer" data-value="5050">Fee Dibagi 2 (50:50)</div>
+                            </div>
+                            <input type="hidden" id="rekber-scenario-input" value="Pembeli">
+                        </div>
+                    </div>
+                    <button onclick="submitRekberPengajuan()" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white py-2.5 rounded-xl text-xs font-bold shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> Buat Invoice & Chat Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cek Status Rekber -->
+            <div class="mt-6 pt-6 border-t border-slate-800 relative z-10">
+                <h3 class="text-sm font-bold text-emerald-400 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass-dollar"></i> Cek Status Transaksi</h3>
+                <div class="flex gap-2">
+                    <input type="text" id="search-invoice-input" placeholder="Masukkan Kode (RKB-1001)..." class="w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:border-emerald-500 outline-none">
+                    <button onclick="searchRekberStatus()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-lg">Cek</button>
+                </div>
+                <div id="rekber-status-result" class="mt-4 hidden"></div>
+            </div>
+        </section>
+
+        <!-- SEKSI JASA POST (SLIDER & LOCAL COMPRESSION) -->
+        <div class="flex justify-between items-center mb-4 scroll-popup mt-8">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-bullhorn text-purple-400"></i> Jasa Post AXIVO</h2>
+        </div>
+
+        <section class="glass-panel scroll-popup rounded-3xl p-6 sm:p-8 mb-8 border border-purple-500/30 relative overflow-hidden">
+            <div class="absolute -top-10 -left-10 w-48 h-48 bg-purple-600/10 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <!-- Fitur Convert Foto ke Link -->
+            <div class="glass-card p-4 rounded-2xl border border-blue-500/30 mb-6 relative z-10">
+                <h3 class="text-sm font-bold text-cyan-400 mb-3 flex items-center gap-2"><i class="fa-solid fa-image text-cyan-400"></i> Convert foto post</h3>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="file" id="catbox-file" accept="image/*" class="w-full text-xs text-white file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:font-semibold file:bg-blue-600 hover:file:bg-blue-500 bg-slate-900 border border-slate-700 rounded-xl cursor-pointer">
+                    <button onclick="uploadToCatbox()" id="btn-upload-catbox" class="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap shadow-lg">Upload & Dapatkan Link</button>
+                </div>
+                <input type="text" id="catbox-result" placeholder="Hasil link foto akan otomatis muncul di sini..." class="w-full mt-3 bg-black/60 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-emerald-400 focus:outline-none" readonly>
+            </div>
+
+            <!-- Form Jasa Post -->
+            <div class="grid grid-cols-1 gap-4 mb-5 relative z-10 text-left">
+                <div>
+                    <label class="block text-[11px] font-bold text-purple-400 mb-1 ml-1">Sistem Poin Koleksi Skin</label>
+                    <div class="relative custom-dropdown z-[50]" data-target="post-koleksi">
+                        <div class="dropdown-selected w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white flex justify-between items-center cursor-pointer hover:border-purple-500 transition">
+                            <span class="selected-text">Kolektor Amatir (Level 5 – 1)</span>
+                            <i class="fa-solid fa-chevron-down text-purple-400 text-[10px]"></i>
+                        </div>
+                        <div class="dropdown-options hidden absolute z-[60] left-0 right-0 mt-2 bg-slate-900 border border-purple-500/50 rounded-xl overflow-hidden backdrop-blur-xl">
+                            <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-purple-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Kolektor Amatir (Level 5 – 1)">Kolektor Amatir (Level 5 – 1)</div>
+                            <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-purple-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Kolektor Junior (Level 5 – 1)">Kolektor Junior (Level 5 – 1)</div>
+                            <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-purple-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Kolektor Senior (Level 5 – 1)">Kolektor Senior (Level 5 – 1)</div>
+                            <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-purple-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Kolektor Ahli (Level 5 – 1)">Kolektor Ahli (Level 5 – 1)</div>
+                            <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-purple-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Kolektor Ternama (Level 5 – 1)">Kolektor Ternama (Level 5 – 1)</div>
+                            <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-purple-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Kolektor Terhormat (Level 5 – 1)">Kolektor Terhormat (Level 5 – 1)</div>
+                            <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-purple-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Kolektor Juragan (Level 5 – 1)">Kolektor Juragan (Level 5 – 1)</div>
+                            <div class="dropdown-option px-4 py-3 text-xs text-slate-300 hover:bg-purple-600 hover:text-white cursor-pointer" data-value="Kolektor Sultan">Kolektor Sultan</div>
+                        </div>
+                        <input type="hidden" id="post-koleksi" value="Kolektor Amatir (Level 5 – 1)">
+                    </div>
+                </div>
+                <div><label class="block text-[11px] font-bold text-purple-400 mb-1 ml-1">Metode Login Akun</label><input type="text" id="post-login" placeholder="Contoh: Google / Facebook / Moonton" class="w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-purple-500 outline-none transition-colors"></div>
+                <div><label class="block text-[11px] font-bold text-purple-400 mb-1 ml-1">Status Keamanan Akun</label><input type="text" id="post-status" placeholder="Contoh: Aman / Sepi 1 Bulan" class="w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-purple-500 outline-none transition-colors"></div>
+                <div><label class="block text-[11px] font-bold text-purple-400 mb-1 ml-1">Minus Akun (Jika Ada)</label><textarea id="post-minus" rows="2" placeholder="Tuliskan jika ada minus..." class="w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-purple-500 outline-none resize-y transition-colors"></textarea></div>
+                <div><label class="block text-[11px] font-bold text-purple-400 mb-1 ml-1">Detail Spesifikasi Akun</label><textarea id="post-spek" rows="4" placeholder="Tuliskan spek lengkap akun..." class="w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-purple-500 outline-none resize-y transition-colors"></textarea></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div><label class="block text-[11px] font-bold text-emerald-400 mb-1 ml-1">Harga Jual (Rp)</label><input type="number" id="post-harga" placeholder="Contoh: 150000" class="w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-emerald-500 outline-none transition-colors"></div>
+                    <div><label class="block text-[11px] font-bold text-blue-400 mb-1 ml-1">No. WhatsApp Penjual</label><input type="text" id="post-wa" placeholder="Contoh: 628123456789" class="w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 outline-none transition-colors"></div>
+                </div>
+                <div><label class="block text-[11px] font-bold text-cyan-400 mb-1 ml-1">Link Foto (Otomatis dari Convert di Atas)</label><input type="text" id="post-img" placeholder="Upload foto di atas, link terisi di sini" class="w-full bg-black/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none transition-colors"></div>
+            </div>
+            
+            <button onclick="submitJasaPost()" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white py-3 rounded-xl text-sm font-bold transition shadow-lg relative z-10 flex items-center justify-center gap-2 mt-2">
+                <i class="fa-brands fa-whatsapp text-base"></i> Kirim Form & Konfirmasi WA Admin
+            </button>
+        </section>
+
+        <!-- Slider View Jasa Post & Filter (Horizontal Carousel) -->
+        <div id="filter-jasapost" class="flex gap-2 overflow-x-auto hide-scrollbar mb-4 scroll-popup pb-2 px-1"></div>
+        <section id="view-jasapost-container" class="slider-container mb-12 scroll-popup px-1"></section>
+
+        <!-- KATALOG PRODUK & FLASH SALE -->
+        <div class="flex justify-between items-center mb-4 scroll-popup">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-boxes-stacked text-blue-400"></i> Katalog Produk</h2>
+        </div>
+        <div id="flash-sale-banner" class="hidden mb-4 scroll-popup bg-gradient-to-r from-purple-900/60 to-blue-900/60 border border-purple-500/50 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between shadow-[0_0_20px_rgba(168,85,247,0.2)]">
+            <div class="text-sm font-bold text-white flex items-center gap-2 mb-2 sm:mb-0">
+                <i class="fa-solid fa-fire text-orange-500 animate-pulse" style="animation: none;"></i> FLASH SALE
+            </div>
+            <div class="flex items-center gap-2 font-mono text-purple-300">
+                <span class="text-xs">Berakhir dalam:</span>
+                <div class="bg-black/50 px-2 py-1 rounded text-white font-bold"><span id="fs-d">00</span> Hari</div>
+                <div class="bg-black/50 px-2 py-1 rounded text-white font-bold"><span id="fs-h">00</span>:<span id="fs-m">00</span>:<span id="fs-s">00</span></div>
+            </div>
+        </div>
+        
+        <div id="filter-container" class="flex gap-2 overflow-x-auto hide-scrollbar mb-6 pb-2 scroll-popup"></div>
+        <section id="view-catalog" class="mb-12 scroll-popup"></section>
+
+        <!-- FAQ -->
+        <section class="glass-panel scroll-popup rounded-3xl p-6 sm:p-8 mb-12 border-t-2 border-slate-700/50">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-question text-cyan-400"></i> FAQ & Aturan Rekber</h2>
+            <div id="faq-container" class="space-y-3"></div>
+        </section>
+
+        <!-- TESTIMONI -->
+        <div class="flex justify-between items-center mb-6 scroll-popup">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-receipt text-emerald-400"></i> Testimoni Transaksi</h2>
+        </div>
+        <section id="view-testimonials" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 scroll-popup"></section>
+        
+        <section class="glass-panel scroll-popup rounded-3xl p-6 sm:p-8 mt-6 mb-16 relative border border-emerald-500/20">
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-comment-dots text-emerald-400"></i> Tinggalkan Testimoni</h3>
+            <div class="mb-4 flex flex-col items-start gap-1">
+                <label class="text-xs text-slate-400">Rating:</label>
+                <div id="star-rating-form" class="flex gap-2 text-2xl text-slate-600 cursor-pointer">
+                    <i class="fa-solid fa-star star-btn text-yellow-400" onclick="setRating(1)" data-val="1"></i>
+                    <i class="fa-solid fa-star star-btn text-yellow-400" onclick="setRating(2)" data-val="2"></i>
+                    <i class="fa-solid fa-star star-btn text-yellow-400" onclick="setRating(3)" data-val="3"></i>
+                    <i class="fa-solid fa-star star-btn text-yellow-400" onclick="setRating(4)" data-val="4"></i>
+                    <i class="fa-solid fa-star star-btn text-yellow-400" onclick="setRating(5)" data-val="5"></i>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <input type="text" id="pub-testi-name" placeholder="Nama Anda" class="bg-black/60 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 text-white">
+                <input type="text" id="pub-testi-item" placeholder="Produk/Layanan" class="bg-black/60 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 text-white">
+                <textarea id="pub-testi-desc" placeholder="Tulis pengalaman Anda..." rows="3" class="col-span-1 sm:col-span-2 bg-black/60 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 text-white"></textarea>
+            </div>
+            <button onclick="submitPublicTestimoni()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl text-sm font-medium shadow-lg">Kirim & Publikasikan</button>
+        </section>
+
+        <!-- FOOTER & AUDIO & ADMIN BUTTON -->
+        <footer class="glass-panel scroll-popup rounded-3xl p-8 text-center flex flex-col items-center justify-center gap-6 mt-16 border-b-4 border-blue-600">
+            <div class="text-sm"><p class="font-medium text-white">© 2026 Rifqy Sahda Pratama.</p><p class="text-blue-300/80 mt-1">All rights reserved.</p></div>
+            <div class="flex flex-col items-center gap-4">
+                <div class="flex items-center justify-center gap-4">
+                    <a id="link-fb" href="#" class="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a id="link-tg" href="#" class="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
+                    <a id="link-ig" href="#" class="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <div class="flex items-center justify-center gap-4 mt-2">
+                    <button onclick="toggleMusic()" class="group relative w-10 h-10 rounded-full flex items-center justify-center bg-slate-800 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-900/80 transition shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                        <div class="absolute inset-0 rounded-full border border-cyan-400/40 animate-[spin_4s_linear_infinite] group-hover:border-cyan-400"></div>
+                        <i id="music-icon" class="fa-solid fa-music text-xs z-10 transition-all"></i>
+                    </button>
+                    <button onclick="openAdminLogin()" class="group relative w-10 h-10 rounded-full flex items-center justify-center bg-slate-800 border border-blue-500/50 text-blue-400 hover:bg-blue-900/80 transition shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                        <div class="absolute inset-0 rounded-full border border-blue-400/40 animate-[spin-reverse_4s_linear_infinite] group-hover:border-blue-400"></div>
+                        <i class="fa-solid fa-lock text-xs z-10 transition-all"></i>
+                    </button>
+                </div>
+                <audio id="bg-audio" loop></audio>
+            </div>
+        </footer>
+    </main>
+
+    <!-- FLOATING WA BUTTON -->
+    <a id="floating-wa-btn" href="#" target="_blank" class="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-400 text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-[0_0_20px_rgba(16,185,129,0.5)] transition hover:scale-110">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- ================= MODALS ================= -->
+    <div id="customAlertModal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div id="customAlertBox" class="bg-slate-900 border rounded-3xl p-8 max-w-sm w-full text-center transform scale-95 transition-transform duration-300 relative overflow-hidden">
+            <div id="customAlertIcon" class="text-5xl mb-4"></div>
+            <h3 id="customAlertTitle" class="text-xl font-bold text-white mb-2 tracking-wide">Pemberitahuan</h3>
+            <p id="customAlertMessage" class="text-sm text-slate-300 mb-8 leading-relaxed"></p>
+            <button onclick="closeCustomAlert()" id="customAlertBtn" class="w-full text-white py-3 rounded-xl text-sm font-bold tracking-wider transition shadow-lg">Mengerti</button>
+        </div>
+    </div>
+    
+    <div id="customConfirmModal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div id="customConfirmBox" class="bg-slate-900 border border-orange-500/50 rounded-3xl p-8 max-w-sm w-full text-center shadow-[0_0_30px_rgba(249,115,22,0.2)] transform scale-95 transition-transform duration-300">
+            <div class="text-5xl mb-4"><i class="fa-solid fa-triangle-exclamation text-orange-500 animate-pulse" style="animation: none;"></i></div>
+            <h3 class="text-xl font-bold text-white mb-2 tracking-wide">Konfirmasi</h3>
+            <p id="customConfirmMessage" class="text-sm text-slate-300 mb-8">Apakah Anda yakin?</p>
+            <div class="flex gap-3">
+                <button onclick="closeCustomConfirm()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-xl text-sm font-medium">Batal</button>
+                <button id="customConfirmBtn" class="flex-1 bg-orange-600 hover:bg-orange-500 text-white py-3 rounded-xl text-sm font-bold shadow-lg">Ya</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div id="loginBox" class="bg-slate-900 border border-slate-700 rounded-3xl p-6 w-full max-w-sm text-center shadow-[0_0_20px_rgba(59,130,246,0.15)] transform scale-95 transition-transform duration-300">
+            <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-shield-halved text-blue-500"></i> Admin Access</h3>
+            <input type="password" id="adminPassword" placeholder="Masukkan Password" class="w-full bg-black/50 border border-slate-600 rounded-xl px-4 py-3 mb-5 text-white text-center tracking-widest focus:outline-none focus:border-blue-500 transition">
+            <div class="flex gap-2">
+                <button onclick="closeModal('loginModal', 'loginBox')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white py-2.5 rounded-xl text-sm transition font-medium">Batal</button>
+                <button onclick="loginAdmin()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-xl text-sm shadow-lg transition font-medium">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="qrisModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div id="qrisBox" class="glass-modal rounded-3xl max-w-md w-full p-6 text-center transform scale-95 transition-transform duration-300 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
+            <h3 id="modalItemName" class="text-lg font-bold text-white mb-1">Produk</h3>
+            <p id="modalItemPrice" class="text-slate-400 text-sm line-through hidden mb-0">Rp 0</p>
+            <p id="modalFinalPrice" class="text-cyan-400 font-bold text-xl mb-4">Rp 0</p>
+            <img id="qris-img-view" src="" class="w-48 h-48 mx-auto rounded-xl mb-3 border border-slate-700 object-cover">
+            
+            <button onclick="downloadQRIS()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white text-[10px] font-bold px-3 py-1.5 rounded-lg mb-4 flex items-center justify-center gap-1.5 mx-auto transition">
+                <i class="fa-solid fa-download"></i> Unduh QRIS
+            </button>
+            
+            <div class="flex gap-2 mb-4 bg-slate-900/50 p-2 rounded-xl border border-slate-700">
+                <input type="text" id="voucher-input" placeholder="Kode Promo..." class="w-full bg-transparent px-2 text-xs text-white focus:outline-none uppercase">
+                <button onclick="applyVoucher()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-lg">Gunakan</button>
+            </div>
+            <p class="text-[10px] text-slate-400 mb-4">*Transfer sesuai nominal, lalu konfirmasi dengan screenshot ke WhatsApp.</p>
+            
+            <div class="flex flex-col gap-2">
+                <button onclick="confirmPayment()" class="w-full bg-green-600 text-white py-2.5 rounded-xl text-sm font-bold shadow-lg hover:bg-green-500 transition flex justify-center items-center gap-2">
+                    <i class="fa-brands fa-whatsapp"></i> Konfirmasi
+                </button>
+                <button onclick="closeModal('qrisModal', 'qrisBox')" class="w-full bg-slate-800 text-white py-2.5 rounded-xl text-sm font-medium hover:bg-slate-700 transition">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STRUK REKBER -->
+    <div id="receipt-container" class="fixed -left-[9999px] top-0 z-0">
+        <div id="receipt-box" class="w-[400px] bg-[#0a1128] border-2 border-cyan-500 p-8 text-white font-mono relative overflow-hidden shadow-2xl">
+            <div class="border-b-2 border-dashed border-slate-600 pb-5 mb-5 flex flex-col items-center relative z-10">
+                <img id="rec-logo" src="" alt="Logo" class="w-16 h-16 rounded-full border-2 border-cyan-400 mb-3 object-cover shadow-[0_0_15px_rgba(6,182,212,0.5)]">
+                <h2 class="text-2xl font-bold tracking-wider text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> REKBER RESMI</h2>
+                <p class="text-[11px] text-slate-400 mt-1 tracking-widest">BUKTI TRANSAKSI</p>
+            </div>
+            <div class="space-y-4 text-sm relative z-10">
+                <div class="flex justify-between items-center"><span class="text-slate-400">NO. INVOICE</span><span id="rec-inv" class="font-bold text-white text-base">RKB-000</span></div>
+                <div class="flex justify-between items-center"><span class="text-slate-400">TANGGAL</span><span id="rec-date" class="font-bold text-white">YYYY-MM-DD</span></div>
+                <div class="border-t border-slate-700/50 pt-4 mt-2 flex justify-between items-center"><span class="text-slate-400">PEMBELI</span><span id="rec-buyer" class="font-bold text-white text-right">Name</span></div>
+                <div class="flex justify-between items-center"><span class="text-slate-400">PENJUAL</span><span id="rec-seller" class="font-bold text-white text-right">Name</span></div>
+                <div class="flex flex-col mt-2"><span class="text-slate-400 mb-1">DETAIL ITEM / BARANG</span><span id="rec-item" class="font-bold text-cyan-300 text-left bg-slate-900/50 p-3 border border-slate-700 rounded-lg whitespace-normal break-words leading-relaxed">Item</span></div>
+                <div class="border-t-2 border-slate-600 pt-4 mt-4 flex justify-between items-end"><span class="text-slate-400">TOTAL TRANSFER</span><span id="rec-total" class="font-bold text-emerald-400 text-2xl tracking-tighter drop-shadow-md">Rp 0</span></div>
+            </div>
+            <div class="mt-8 pt-6 border-t-2 border-dashed border-slate-600 text-center relative z-10 flex flex-col items-center">
+                <div id="rec-status-watermark" class="text-3xl font-black text-emerald-500/80 uppercase tracking-widest border-4 border-emerald-500/50 inline-block px-6 py-2 rotate-[-5deg] shadow-lg">LUNAS</div>
+                <p class="text-[10px] text-slate-500 mt-6 leading-relaxed">Sistem Portofolio Rifqy Sahda Pratama</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FULL ADMIN PANEL ================= -->
+    <div id="adminPanel" class="fixed inset-0 z-[150] bg-[#050a15] hidden overflow-y-auto opacity-0 transition-opacity duration-300 scroll-smooth">
+        <!-- HEADER DIBERI Z-[120] AGAR DROPDOWN TIDAK MENGAMBANG DI ATASNYA -->
+        <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3 shadow-[0_10px_30px_rgba(0,0,0,0.6)] z-[120]">
+            <h2 class="text-lg font-bold text-blue-400 flex items-center gap-2"><i class="fa-solid fa-gear spin-on-hover" style="animation: none;"></i> Dashboard Admin</h2>
+            <div class="flex overflow-x-auto hide-scrollbar gap-2 w-full sm:w-auto p-1 bg-black/40 rounded-xl border border-white/5">
+                <button onclick="switchTab('tab-jasapost')" class="tab-btn active px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition">Jasa Post</button>
+                <button onclick="switchTab('tab-profil')" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition">Profil</button>
+                <button onclick="switchTab('tab-katalog')" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition">Katalog</button>
+                <button onclick="switchTab('tab-blacklist')" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition">Blacklist</button>
+                <button onclick="switchTab('tab-rekber')" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition">Rekber</button>
+                <button onclick="switchTab('tab-testimoni')" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition">Testi/FAQ</button>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto">
+                <button onclick="promptResetData()" class="bg-red-900/30 text-red-400 px-3 py-1.5 rounded-lg text-xs border border-red-500/30 hover:bg-red-600 hover:text-white transition" title="Reset Total"><i class="fa-solid fa-rotate-right" style="animation: none;"></i></button>
+                <button id="btnCloseAdmin" onclick="closeAdminPanel()" class="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded-lg text-xs font-medium shadow-lg transition">Tutup Panel</button>
+            </div>
+        </div>
+        
+        <div class="p-4 sm:p-8 pb-[60vh] min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/20 via-[#050a15] to-[#050a15]">
+            <div class="max-w-6xl mx-auto">
+                
+                <!-- TAB JASA POST -->
+                <div id="tab-jasapost" class="tab-content active">
+                    <h3 class="text-xl font-bold text-white mb-2 border-b border-slate-700 pb-2"><i class="fa-solid fa-pen-to-square text-purple-400"></i> Edit Keterangan Footer Postingan</h3>
+                    <textarea id="edit-jasapost-desc" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-sm text-white focus:border-purple-500 outline-none mb-3 font-mono"></textarea>
+                    <button onclick="saveJasaPostDesc()" class="bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-lg text-xs font-bold transition shadow mb-8">Simpan Keterangan (Berlaku Semua Post)</button>
+                    
+                    <h3 class="text-xl font-bold text-white mb-2">Pengajuan Jasa Post Baru</h3>
+                    <div id="admin-pending-post-list" class="space-y-3 mb-8"></div>
+                    
+                    <h3 class="text-xl font-bold text-white mb-4 border-t border-slate-700 pt-6">Daftar Postingan Aktif (Ubah Status Ready / Sold)</h3>
+                    <div id="admin-active-post-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </div>
+
+                <!-- TAB PENGATURAN -->
+                <div id="tab-profil" class="tab-content space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                            <h3 class="text-sm font-bold text-white mb-4 border-b border-slate-700 pb-2">Profil Dasar</h3>
+                            <div class="space-y-3">
+                                <div><label class="text-[11px] text-slate-400">Nama</label><input type="text" id="edit-name" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                <div><label class="text-[11px] text-slate-400">Role / Jabatan</label><input type="text" id="edit-role" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                <div><label class="text-[11px] text-slate-400">Lokasi</label><input type="text" id="edit-loc" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                <div><label class="text-[11px] text-slate-400">URL Foto Profil</label><input type="text" id="edit-photo" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                <div><label class="text-[11px] text-slate-400">Deskripsi Bio</label><textarea id="edit-bio" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></textarea></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                                <h3 class="text-sm font-bold text-white mb-4 border-b border-slate-700 pb-2">Sistem Admin</h3>
+                                <div class="space-y-3">
+                                    <div><label class="text-[11px] text-slate-400">Angka Dasar "Transaksi Sukses"</label><input type="number" id="edit-base-tx" class="w-full bg-slate-900 border border-emerald-700/50 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                    <div>
+                                        <label class="text-[11px] text-slate-400">Status Admin</label>
+                                        <div class="relative custom-dropdown z-[50]" data-target="edit-admin-status">
+                                            <div class="dropdown-selected w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white flex justify-between items-center cursor-pointer">
+                                                <span class="selected-text">Online</span><i class="fa-solid fa-chevron-down text-[10px]" style="animation: none;"></i>
+                                            </div>
+                                            <div class="dropdown-options hidden absolute z-50 left-0 right-0 mt-1 bg-slate-900 border border-emerald-500/50 rounded-lg shadow-2xl overflow-hidden backdrop-blur-xl">
+                                                <div class="dropdown-option px-3 py-2 text-sm text-slate-300 hover:bg-emerald-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Online">Online</div>
+                                                <div class="dropdown-option px-3 py-2 text-sm text-slate-300 hover:bg-emerald-600 hover:text-white cursor-pointer border-b border-slate-800" data-value="Istirahat">Istirahat</div>
+                                                <div class="dropdown-option px-3 py-2 text-sm text-slate-300 hover:bg-emerald-600 hover:text-white cursor-pointer" data-value="Offline">Offline</div>
+                                            </div>
+                                            <input type="hidden" id="edit-admin-status" value="Online">
+                                        </div>
+                                    </div>
+                                    <div><label class="text-[11px] text-slate-400">No WhatsApp Admin (Format 628...)</label><input type="text" id="edit-wa-num" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                    <div><label class="text-[11px] text-slate-400">URL Gambar QRIS</label><input type="text" id="edit-qris" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                    <div><label class="text-[11px] text-slate-400">URL Audio MP3 Musik</label><input type="text" id="edit-music" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                    <div><label class="text-[11px] text-slate-400">Berakhir Flash Sale (Kosongkan bila off)</label><input type="datetime-local" id="edit-flash-date" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                </div>
+                            </div>
+                            <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                                <h3 class="text-sm font-bold text-white mb-4 border-b border-slate-700 pb-2">Sosial Media</h3>
+                                <div class="space-y-3">
+                                    <div><label class="text-[11px] text-slate-400">Teks Flash Info Banner</label><input type="text" id="edit-flash" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                    <div><label class="text-[11px] text-slate-400">URL Facebook</label><input type="text" id="edit-fb" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                    <div><label class="text-[11px] text-slate-400">URL Telegram</label><input type="text" id="edit-tg" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                    <div><label class="text-[11px] text-slate-400">URL Instagram</label><input type="text" id="edit-ig" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="saveProfile(true)" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl text-sm font-bold transition shadow-lg tracking-wider">Simpan Pengaturan Profil & Sistem</button>
+                </div>
+
+                <!-- TAB KATALOG -->
+                <div id="tab-katalog" class="tab-content space-y-8">
+                    <div>
+                        <div class="flex justify-between items-end mb-4"><h3 class="text-xl font-bold text-white">Kode Promo</h3></div>
+                        <div class="bg-blue-900/20 border border-blue-700/50 rounded-2xl p-5 mb-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-sm font-bold text-blue-400">Tambah Promo Massal</h4>
+                                <button onclick="addVoucherRow()" class="bg-blue-800 text-white px-3 py-1.5 rounded-lg text-xs">Tambah Baris</button>
+                            </div>
+                            <div id="bulk-voucher-container" class="space-y-3 mb-4"></div>
+                            <button onclick="saveBulkVoucher()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-xl text-sm font-bold shadow-lg">Simpan Kode Promo</button>
+                        </div>
+                        <div id="admin-voucher-list" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                    </div>
+                    
+                    <div class="border-t border-slate-800 pt-8">
+                        <div class="flex justify-between items-end mb-4"><h3 class="text-xl font-bold text-white">Manajemen Katalog</h3></div>
+                        <div class="bg-emerald-900/20 border border-emerald-700/50 rounded-2xl p-5 mb-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-sm font-bold text-emerald-400">Tambah Produk Massal</h4>
+                                <button onclick="addCatRow()" class="bg-emerald-800 text-white px-3 py-1.5 rounded-lg text-xs">Tambah Baris</button>
+                            </div>
+                            <!-- Form input bulk ditambahkan JS -->
+                            <div id="bulk-cat-container" class="space-y-3 mb-4"></div>
+                            <button onclick="saveBulkCatalog()" class="w-full bg-emerald-600 text-white py-2.5 rounded-xl text-sm font-bold shadow-lg">Simpan Produk</button>
+                        </div>
+                        <div id="admin-catalog-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    </div>
+                </div>
+
+                <!-- TAB BLACKLIST -->
+                <div id="tab-blacklist" class="tab-content">
+                    <h3 class="text-xl font-bold text-white mb-4">Akun Bermasalah</h3>
+                    <div class="bg-orange-950/30 border border-orange-500/40 rounded-2xl p-5 mb-8">
+                        <h4 class="text-sm font-bold text-orange-400 mb-3">Pengaduan Masuk</h4>
+                        <div id="admin-pending-bl-list" class="space-y-3"></div>
+                    </div>
+                    
+                    <div class="bg-red-900/20 border border-red-700/50 rounded-2xl p-5 mb-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-sm font-bold text-red-400">Tambah Blacklist Massal</h4>
+                            <button onclick="addBlRow()" class="bg-red-800 text-white px-3 py-1.5 rounded-lg text-xs">Tambah Baris</button>
+                        </div>
+                        <!-- Form input bulk ditambahkan JS -->
+                        <div id="bulk-bl-container" class="space-y-3 mb-4"></div>
+                        <button onclick="saveBulkBlacklist()" class="w-full bg-red-600 text-white py-2.5 rounded-xl text-sm font-bold shadow-lg">Simpan Data</button>
+                    </div>
+                    
+                    <h4 class="text-sm font-bold text-slate-300 mb-3 border-b border-slate-700 pb-2">Daftar Blacklist Publik</h4>
+                    <div id="admin-bl-list" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"></div>
+                </div>
+
+                <!-- TAB REKBER -->
+                <div id="tab-rekber" class="tab-content">
+                    <h3 class="text-xl font-bold text-white mb-2">Transaksi Rekber</h3>
+                    <div id="admin-rekber-list" class="space-y-4"></div>
+                </div>
+
+                <!-- TAB TESTIMONI & FAQ -->
+                <div id="tab-testimoni" class="tab-content space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-2">Moderasi Testimoni</h3>
+                        <div id="admin-testi-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+                    </div>
+                    <div class="border-t border-slate-800 pt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-white">FAQ</h3>
+                            <button onclick="addFaqRow()" class="bg-cyan-600 text-white px-3 py-1.5 rounded-lg text-xs">Tambah FAQ</button>
+                        </div>
+                        <div id="admin-faq-list" class="space-y-3"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT LENGKAP ================= -->
+    <script>
+        // Setelan Database Gist
+        const GITHUB_TOKEN = "ghp_" + "ZKLDqJ9D8QnuyHA5IBFhnsJg5LDFLf3TLSVn"; // Kosongkan bila pakai db default web
+        const GIST_ID = "04f69dba16d98afd497dddf7730dd9be"; 
+
+        // AUTOPLAY MUSIK GLOBAL
+        let musicStarted = false;
+        document.body.addEventListener('click', function() {
+            if (!musicStarted && db && db.settings.bgMusic) {
+                const audio = document.getElementById('bg-audio');
+                const icon = document.getElementById('music-icon');
+                if (audio.src && audio.paused) {
+                    audio.play().then(() => {
+                        isMusicPlaying = true;
+                        musicStarted = true;
+                        icon.className = 'fa-solid fa-pause text-xs z-10 animate-pulse text-emerald-400 transition-all';
+                    }).catch(e => console.log("Audio diblokir oleh browser:", e));
+                }
+            }
+        }, { once: true });
+
+        // Animasi Glow Foto Profil
+        function toggleProfileGlow() {
+            document.getElementById('view-photo').classList.toggle('glow-active');
+        }
+
+        // Auto-close Dropdowns saat Panel di-scroll (Mencegah melayang)
+        document.getElementById('adminPanel').addEventListener('scroll', () => {
+            document.querySelectorAll('.dropdown-options').forEach(opt => opt.classList.add('hidden'));
+            document.querySelectorAll('.dropdown-selected i').forEach(i => i.classList.remove('rotate-180'));
+        }, { passive: true });
+
+        // Default Data & Options
+        const defaultDesc = "Nego atau info detail akun silahkan hubungi kontak penjual diatas. Apabila penjual mencurigakan tidak mau Rekber AXIVO / minta transfer langsung (direct) / mengajak rekber abal-abal, segera beritahu admin supaya postingannya di takedown dan di blacklist.\n\n*Kontak Admin Axivo :*\n*Wa Post Akun* : wa.me/6285199706975\n\n⚠️Sangat dilarang transfer langsung ke penjual, Jika sudah sepakat hubungi Admin AXIVO untuk transaksi Rekber.\n\nTidak ada transaksi selain di Whatsapp/Facebook, waspada clone!!";
+        const koleksiOptions = [
+            'Semua Koleksi',
+            'Kolektor Amatir (Level 5 – 1)',
+            'Kolektor Junior (Level 5 – 1)',
+            'Kolektor Senior (Level 5 – 1)',
+            'Kolektor Ahli (Level 5 – 1)',
+            'Kolektor Ternama (Level 5 – 1)',
+            'Kolektor Terhormat (Level 5 – 1)',
+            'Kolektor Juragan (Level 5 – 1)',
+            'Kolektor Sultan'
+        ];
+
+        const defaultDB = {
+            profile: { 
+                name: "Rifqy Sahda Pratama", 
+                role: "Production Staff / Digital Creator", 
+                location: "Indonesia • Ready to collaborate", 
+                photo: "https://placehold.co/150x150/3b82f6/ffffff?text=RSP", 
+                bio: "Selamat datang di platform Rekber & Portofolio resmi saya!" 
+            },
+            socials: { facebook: "https://facebook.com", telegram: "https://t.me", instagram: "https://instagram.com" },
+            settings: { 
+                qrisImg: "https://placehold.co/220x220/1e293b/ffffff?text=SCAN+QRIS", 
+                flashInfo: "⚡ Layanan Resmi 100% Aman", 
+                adminStatus: "Online", 
+                waNumber: "6285199706975", 
+                baseSuccessTx: 150, 
+                bgMusic: "", 
+                flashSaleEnd: "", 
+                jasaPostDesc: defaultDesc 
+            },
+            vouchers: [ { code: "DISKON10", type: "percent", value: 10 } ],
+            catalog: [ { id: 1, name: "CapCut Pro Resmi", category: "Aplikasi Premium", badge: "PRO", price: "25000", img: "https://placehold.co/400x250/3b82f6/ffffff?text=CapCut", desc: "Akun premium 100% legal", stock: "Ready" } ],
+            testimonials: [ { id: 1, user: "Budi", item: "Rekber Akun", text: "Mantap aman 100%", rating: 5 } ],
+            blacklist: [], 
+            pendingBlacklist: [],
+            rekberTransactions: [ { invoice: "RKB-1001", buyer: "Rian", seller: "Ahmad", item: "Akun COC", nominal: "500000", fee: "10000", total: "510000", status: "Selesai", date: "2026-10-23" } ],
+            faqs: [ { q: "Bagaimana cara kerja Rekber?", a: "Dana ditahan admin sampai akun diterima pembeli." } ],
+            jasaPosts: [], 
+            pendingPosts: []
+        };
+
+        let db = null; 
+        let currentCheckoutPrice = 0; 
+        let currentCheckoutItem = ""; 
+        let appliedDiscount = 0; 
+        let isMusicPlaying = false; 
+        let selectedStarRating = 5; 
+        let timerInterval = null;
+
+        // Custom Dropdown Logic
+        document.addEventListener('click', function(e) { 
+            if (!e.target.closest('.custom-dropdown')) { 
+                document.querySelectorAll('.dropdown-options').forEach(opt => opt.classList.add('hidden')); 
+                document.querySelectorAll('.dropdown-selected i').forEach(i => i.classList.remove('rotate-180')); 
+            } 
+        });
+
+        function initCustomDropdowns() { 
+            document.querySelectorAll('.custom-dropdown').forEach(dropdown => { 
+                if(dropdown.dataset.init === 'true') return; 
+                dropdown.dataset.init = 'true'; 
+                const sel = dropdown.querySelector('.dropdown-selected'); 
+                const optsBox = dropdown.querySelector('.dropdown-options'); 
+                const icon = sel.querySelector('i'); 
+                const inp = dropdown.querySelector('input[type="hidden"]'); 
+                const txt = sel.querySelector('.selected-text'); 
+                
+                sel.addEventListener('click', (e) => { 
+                    e.stopPropagation(); 
+                    document.querySelectorAll('.dropdown-options').forEach(o => { if(o !== optsBox) o.classList.add('hidden'); }); 
+                    document.querySelectorAll('.dropdown-selected i').forEach(i => { if(i !== icon) i.classList.remove('rotate-180'); }); 
+                    optsBox.classList.toggle('hidden'); 
+                    icon.classList.toggle('rotate-180'); 
+                }); 
+                
+                dropdown.querySelectorAll('.dropdown-option').forEach(o => { 
+                    o.addEventListener('click', () => { 
+                        txt.textContent = o.textContent; 
+                        if(inp) { inp.value = o.dataset.value; inp.dispatchEvent(new Event('change')); } 
+                        optsBox.classList.add('hidden'); icon.classList.remove('rotate-180'); 
+                    }); 
+                }); 
+            }); 
+        }
+        
+        function setCustomDropdown(id, val) { 
+            const inp = document.getElementById(id); if(!inp) return; inp.value = val; 
+            const dd = inp.closest('.custom-dropdown'); if(!dd) return; 
+            const txt = dd.querySelector('.selected-text'); 
+            const opt = dd.querySelector(`.dropdown-option[data-value="${val}"]`); 
+            if(opt && txt) txt.textContent = opt.textContent; 
+            else if(txt) txt.textContent = val; 
+        }
+        
+        function buildDropdownHTML(id, opts, selVal, onChange='') { 
+            let txt = selVal; let html = ''; 
+            opts.forEach(o => { 
+                if(o.val === selVal) txt = o.text; 
+                html += `<div class="dropdown-option px-3 py-2 text-xs text-slate-300 hover:bg-slate-700 hover:text-white cursor-pointer border-b border-slate-800/50" data-value="${o.val}">${o.text}</div>`; 
+            }); 
+            return `<div class="relative custom-dropdown w-full z-[80]"><div class="dropdown-selected w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white flex justify-between items-center cursor-pointer hover:border-slate-500 transition"><span class="selected-text truncate mr-2">${txt}</span><i class="fa-solid fa-chevron-down text-slate-400 text-[10px]" style="animation: none;"></i></div><div class="dropdown-options hidden absolute z-[100] left-0 right-0 mt-1 bg-slate-900 border border-slate-600 rounded-lg shadow-2xl max-h-40 overflow-y-auto backdrop-blur-xl">${html}</div><input type="hidden" id="${id}" value="${selVal}" onchange="${onChange}"></div>`; 
+        }
+
+        // Custom Alerts
+        function showCustomAlert(msg, type='info') { 
+            document.body.classList.add('modal-open'); 
+            const modal = document.getElementById('customAlertModal'); 
+            const box = document.getElementById('customAlertBox'); 
+            const icon = document.getElementById('customAlertIcon'); 
+            const title = document.getElementById('customAlertTitle'); 
+            const msgEl = document.getElementById('customAlertMessage'); 
+            const btn = document.getElementById('customAlertBtn'); 
+            
+            modal.classList.remove('hidden'); void modal.offsetWidth; 
+            modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); 
+            msgEl.innerHTML = msg; 
+            
+            if (type === 'error') { 
+                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-500 animate-bounce" style="animation: none;"></i>'; 
+                title.textContent = 'Terjadi Kesalahan'; 
+                box.className = 'bg-slate-900 border border-red-500/50 rounded-3xl p-8 max-w-sm w-full text-center shadow-[0_0_30px_rgba(239,68,68,0.2)] transform relative'; 
+                btn.className = 'w-full bg-red-600 hover:bg-red-500 text-white py-3 rounded-xl text-sm font-bold shadow-lg transition'; 
+            } else if (type === 'success') { 
+                icon.innerHTML = '<i class="fa-solid fa-shield-check text-emerald-500 animate-bounce" style="animation: none;"></i>'; 
+                title.textContent = 'Berhasil!'; 
+                box.className = 'bg-slate-900 border border-emerald-500/50 rounded-3xl p-8 max-w-sm w-full text-center shadow-[0_0_30px_rgba(16,185,129,0.2)] transform relative'; 
+                btn.className = 'w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl text-sm font-bold shadow-lg transition'; 
+            } else { 
+                icon.innerHTML = '<i class="fa-solid fa-bell text-blue-500 animate-bounce" style="animation: none;"></i>'; 
+                title.textContent = 'Info'; 
+                btn.className = 'w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl text-sm font-bold shadow-lg transition'; 
+            } 
+        }
+        function closeCustomAlert() { 
+            const modal = document.getElementById('customAlertModal'); 
+            const box = document.getElementById('customAlertBox'); 
+            modal.classList.add('opacity-0'); box.classList.add('scale-95'); 
+            setTimeout(() => { modal.classList.add('hidden'); document.body.classList.remove('modal-open'); }, 300); 
+        }
+        function showCustomConfirm(msg, cb) { 
+            document.body.classList.add('modal-open'); 
+            const modal = document.getElementById('customConfirmModal'); 
+            const box = document.getElementById('customConfirmBox'); 
+            document.getElementById('customConfirmMessage').innerHTML = msg; 
+            modal.classList.remove('hidden'); void modal.offsetWidth; 
+            modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); 
+            document.getElementById('customConfirmBtn').onclick = () => { closeCustomConfirm(); cb(); }; 
+        }
+        function closeCustomConfirm() { 
+            const modal = document.getElementById('customConfirmModal'); 
+            const box = document.getElementById('customConfirmBox'); 
+            modal.classList.add('opacity-0'); box.classList.add('scale-95'); 
+            setTimeout(() => { modal.classList.add('hidden'); document.body.classList.remove('modal-open'); }, 300); 
+        }
+        function openModal(mid, bid) { 
+            document.body.classList.add('modal-open'); 
+            const modal = document.getElementById(mid); 
+            const box = document.getElementById(bid); 
+            modal.classList.remove('hidden'); void modal.offsetWidth; 
+            modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); 
+        }
+        function closeModal(mid, bid) { 
+            const modal = document.getElementById(mid); 
+            const box = document.getElementById(bid); 
+            modal.classList.add('opacity-0'); box.classList.add('scale-95'); 
+            setTimeout(() => { modal.classList.add('hidden'); document.body.classList.remove('modal-open'); }, 300); 
+        }
+
+        // Fetch & Save Database (Local / Gist)
+        async function fetchDB() { 
+            try { 
+                const res = await fetch(`https://api.github.com/gists/${GIST_ID}`); 
+                const data = await res.json(); 
+                if (data.files['db.json'] && data.files['db.json'].content !== "{}") { 
+                    db = JSON.parse(data.files['db.json'].content); 
+                    if(!db.settings.jasaPostDesc) db.settings.jasaPostDesc = defaultDesc; 
+                    if(!db.jasaPosts) db.jasaPosts = []; 
+                    if(!db.pendingPosts) db.pendingPosts = []; 
+                } else { 
+                    db = JSON.parse(JSON.stringify(defaultDB)); 
+                    await saveDB(); 
+                } 
+            } catch(e) { 
+                db = JSON.parse(JSON.stringify(defaultDB)); 
+            } 
+            renderUserView(); setupFlashSale(); initCustomDropdowns(); 
+        }
+        
+        async function saveDB() { 
+            try { 
+                await fetch(`https://api.github.com/gists/${GIST_ID}`, { 
+                    method: 'PATCH', 
+                    headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': `Bearer ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ files: { 'db.json': { content: JSON.stringify(db) } } }) 
+                }); 
+            } catch(e) {
+                console.log("Local Mode: Database disave ke memori.", db);
+            } 
+        }
+        
+        function promptResetData() { 
+            showCustomConfirm('Reset semua data ke default pabrik?', async () => { 
+                db = JSON.parse(JSON.stringify(defaultDB)); 
+                await saveDB(); 
+                location.reload(); 
+            }); 
+        }
+
+        // Flash Sale Timer
+        function setupFlashSale() { 
+            if(timerInterval) clearInterval(timerInterval); 
+            const banner = document.getElementById('flash-sale-banner'); 
+            if(db.settings.flashSaleEnd) { 
+                const target = new Date(db.settings.flashSaleEnd).getTime(); 
+                timerInterval = setInterval(() => { 
+                    const now = new Date().getTime(); 
+                    const dist = target - now; 
+                    if(dist < 0) { 
+                        clearInterval(timerInterval); banner.classList.add('hidden'); return; 
+                    } 
+                    document.getElementById('fs-d').innerText = String(Math.floor(dist / (1000 * 60 * 60 * 24))).padStart(2,'0'); 
+                    document.getElementById('fs-h').innerText = String(Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2,'0'); 
+                    document.getElementById('fs-m').innerText = String(Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60))).padStart(2,'0'); 
+                    document.getElementById('fs-s').innerText = String(Math.floor((dist % (1000 * 60)) / 1000)).padStart(2,'0'); 
+                    banner.classList.remove('hidden'); 
+                }, 1000); 
+            } else { 
+                banner.classList.add('hidden'); 
+            } 
+        }
+
+        // MAIN RENDER USER VIEW
+        function renderUserView() {
+            if (!db) return;
+            // Render Profile
+            document.getElementById('view-name').textContent = db.profile.name; 
+            document.getElementById('view-role').textContent = db.profile.role; 
+            document.getElementById('view-loc-text').textContent = db.profile.location; 
+            document.getElementById('view-bio').innerHTML = db.profile.bio; 
+            document.getElementById('view-photo').src = db.profile.photo;
+            
+            // Socials & Floating WA
+            document.getElementById('link-fb').href = db.socials.facebook; 
+            document.getElementById('link-tg').href = db.socials.telegram; 
+            document.getElementById('link-ig').href = db.socials.instagram; 
+            document.getElementById('floating-wa-btn').href = `https://wa.me/${db.settings.waNumber||'6285199706975'}`;
+            
+            // Background Audio
+            const audioEl = document.getElementById('bg-audio'); 
+            if(db.settings.bgMusic && !audioEl.src.includes(db.settings.bgMusic)) audioEl.src = db.settings.bgMusic;
+            
+            // Stats
+            document.getElementById('metric-trx').textContent = (db.rekberTransactions.filter(r => r.status === "Selesai").length + (parseInt(db.settings.baseSuccessTx)||0)) + "+"; 
+            document.getElementById('metric-scam').textContent = db.blacklist.length;
+            
+            // Admin Badge
+            const sb = document.getElementById('admin-status-badge'); 
+            const st = db.settings.adminStatus; 
+            if(st === "Online") { 
+                sb.className = "absolute bottom-1 right-1 bg-slate-900/90 px-2 py-1 rounded-full border border-emerald-500/40 flex items-center gap-1 text-[10px] font-bold text-emerald-400 z-10"; 
+                sb.innerHTML = `<span class="w-2 h-2 bg-emerald-400 rounded-full pulse-green"></span> Online`; 
+            } else if(st === "Istirahat") { 
+                sb.className = "absolute bottom-1 right-1 bg-slate-900/90 px-2 py-1 rounded-full border border-yellow-500/40 flex items-center gap-1 text-[10px] font-bold text-yellow-400 z-10"; 
+                sb.innerHTML = `<span class="w-2 h-2 bg-yellow-400 rounded-full"></span> Istirahat`; 
+            } else { 
+                sb.className = "absolute bottom-1 right-1 bg-slate-900/90 px-2 py-1 rounded-full border border-red-500/40 flex items-center gap-1 text-[10px] font-bold text-red-400 z-10"; 
+                sb.innerHTML = `<span class="w-2 h-2 bg-red-500 rounded-full"></span> Offline`; 
+            }
+            
+            // Flash Info
+            const fb = document.getElementById('flash-banner'); 
+            if(db.settings.flashInfo && db.settings.flashInfo.trim() !== "") { 
+                document.getElementById('flash-text').textContent = db.settings.flashInfo; 
+                fb.classList.remove('hidden'); 
+            } else { 
+                fb.classList.add('hidden'); 
+            }
+
+            // KATALOG RENDER
+            const catContainer = document.getElementById('view-catalog'); 
+            const filterContainer = document.getElementById('filter-container'); 
+            const categories = [...new Set(db.catalog.map(i => i.category))];
+            
+            let filterHtml = `<button onclick="filterCatalog('Semua')" class="cat-filter-btn active bg-blue-600 text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-[0_0_15px_rgba(59,130,246,0.4)]">Semua</button>`;
+            categories.forEach(cat => { 
+                filterHtml += `<button onclick="filterCatalog('${cat}')" class="cat-filter-btn bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap border border-slate-700 hover:border-blue-500/50">${cat}</button>`; 
+            });
+            filterContainer.innerHTML = filterHtml;
+            
+            let sliderHtml = ''; 
+            categories.forEach(cat => { 
+                const items = db.catalog.filter(i => i.category === cat); 
+                sliderHtml += `<div class="catalog-section mb-10" data-cat="${cat}"><h3 class="text-sm font-bold text-blue-300 mb-4 border-l-2 border-blue-500 pl-2 ml-1 flex items-center gap-2">${cat} <span class="text-[10px] bg-blue-900/50 px-2 py-0.5 rounded-full">${items.length} Item</span></h3><div class="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory gap-4 pb-4 px-1">`;
+                
+                items.forEach(item => { 
+                    let cleanPrice = parseInt(String(item.price).replace(/\D/g,'')); 
+                    let displayPrice = cleanPrice ? `Rp ${cleanPrice.toLocaleString('id-ID')}` : item.price; 
+                    let stockBadge = '<span class="bg-emerald-600 text-[10px] font-bold px-2 py-0.5 rounded shadow text-white">Stok Ready</span>'; 
+                    let btnOrder = `<button onclick="openQris('${item.name}', ${cleanPrice})" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg">ORDER</button>`; 
+                    
+                    if(item.stock === "PO") { 
+                        stockBadge = '<span class="bg-yellow-600 text-[10px] font-bold px-2 py-0.5 rounded text-white">Pre-Order</span>'; 
+                        btnOrder = `<button onclick="openQris('${item.name}', ${cleanPrice})" class="bg-yellow-600 hover:bg-yellow-500 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg">PRE-ORDER</button>`; 
+                    } else if(item.stock === "Habis") { 
+                        stockBadge = '<span class="bg-red-600 text-[10px] font-bold px-2 py-0.5 rounded text-white">Stok Habis</span>'; 
+                        btnOrder = `<button disabled class="bg-slate-700 text-slate-400 text-xs px-3 py-1.5 rounded-lg opacity-60">HABIS</button>`; 
+                    } 
+                    
+                    sliderHtml += `<div class="snap-center shrink-0 w-[260px] sm:w-[280px] glass-card rounded-2xl p-5 flex flex-col justify-between group relative"><div class="cyber-pulse-icon"></div><div><div class="overflow-hidden rounded-xl mb-4 h-36 bg-slate-900/50 relative"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"><div class="absolute bottom-2 left-2 flex gap-1">${stockBadge}<span class="bg-blue-600 text-[10px] font-bold px-2 py-0.5 rounded text-white">${item.badge}</span></div></div><h3 class="text-lg font-bold text-white mb-1 leading-tight">${item.name}</h3><p class="text-slate-300 text-xs mb-4 line-clamp-2">${item.desc}</p></div><div class="flex items-center justify-between pt-2 border-t border-white/5"><span class="font-bold text-cyan-400 text-sm">${displayPrice}</span>${btnOrder}</div></div>`; 
+                });
+                sliderHtml += `</div></div>`; 
+            }); 
+            catContainer.innerHTML = sliderHtml;
+
+            // FAQ RENDER
+            const faqContainer = document.getElementById('faq-container'); 
+            faqContainer.innerHTML = ''; 
+            db.faqs.forEach(f => { 
+                faqContainer.innerHTML += `<details class="glass-card rounded-2xl border border-slate-700/60 group"><summary class="p-4 font-bold text-sm text-white cursor-pointer flex justify-between items-center"><span><i class="fa-solid fa-circle-info text-cyan-400 mr-2"></i> ${f.q}</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition" style="animation: none;"></i></summary><div class="px-4 pb-4 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-3 whitespace-pre-line">${f.a}</div></details>`; 
+            });
+            
+            // TESTIMONI RENDER
+            const testContainer = document.getElementById('view-testimonials'); 
+            testContainer.innerHTML = ''; 
+            db.testimonials.forEach(t => { 
+                let stars = ''; 
+                for(let i=0; i<5; i++) stars += `<i class="fa-solid fa-star ${i < (t.rating||5) ? 'text-yellow-400' : 'text-slate-700'} text-[10px]" style="animation: none;"></i>`; 
+                
+                testContainer.innerHTML += `<div class="glass-card p-4 rounded-2xl border-l-4 border-l-emerald-500 relative overflow-hidden"><div class="absolute -right-4 -bottom-4 text-emerald-900/30 text-5xl"><i class="fa-solid fa-quote-right"></i></div><div class="flex justify-between items-start mb-2 relative z-10"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-emerald-900/50 flex items-center justify-center text-emerald-400"><i class="fa-solid fa-user text-xs"></i></div><div><p class="text-sm font-bold text-white">${t.user}</p><p class="text-[10px] text-emerald-400">${t.item}</p></div></div><div class="flex">${stars}</div></div><p class="text-xs text-slate-300 relative z-10 italic">"${t.text}"</p></div>`; 
+            });
+
+            // JASA POST FILTER (HORIZONTAL)
+            let jpFilterHtml = ''; 
+            koleksiOptions.forEach((kol, i) => { 
+                const activeClass = i === 0 ? "active bg-purple-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] border-purple-500" : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white px-4 py-2 rounded-full text-xs font-bold border border-slate-700"; 
+                jpFilterHtml += `<button onclick="filterJasaPost('${kol}')" class="jasa-filter-btn whitespace-nowrap transition ${activeClass}" data-cat="${kol}">${kol}</button>`; 
+            }); 
+            document.getElementById('filter-jasapost').innerHTML = jpFilterHtml;
+            
+            renderJasaPosts("Semua Koleksi"); 
+            triggerScrollAnim();
+        }
+
+        // KATALOG FILTERING
+        function filterCatalog(category) { 
+            document.querySelectorAll('.cat-filter-btn').forEach(btn => { 
+                if(btn.innerText.trim() === category) {
+                    btn.className = "cat-filter-btn active bg-blue-600 text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-[0_0_15px_rgba(59,130,246,0.4)] transition"; 
+                } else {
+                    btn.className = "cat-filter-btn bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition border border-slate-700 hover:border-blue-500/50"; 
+                }
+            }); 
+            
+            document.querySelectorAll('.catalog-section').forEach(sec => { 
+                if(category === 'Semua' || sec.dataset.cat === category) sec.style.display = 'block'; 
+                else sec.style.display = 'none'; 
+            }); 
+        }
+        
+        // JASA POST FILTERING
+        function filterJasaPost(kol) { 
+            document.querySelectorAll('.jasa-filter-btn').forEach(btn => { 
+                if(btn.dataset.cat === kol) {
+                    btn.className = "jasa-filter-btn active bg-purple-600 text-white px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-[0_0_15px_rgba(168,85,247,0.4)] transition border-purple-500"; 
+                } else {
+                    btn.className = "jasa-filter-btn bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition border border-slate-700 hover:border-purple-500/50"; 
+                }
+            }); 
+            renderJasaPosts(kol); 
+        }
+
+        // RENDER JASA POST SLIDER HORIZONTAL
+        function renderJasaPosts(kol) {
+            const container = document.getElementById('view-jasapost-container'); 
+            if (!container || !db.jasaPosts) return; 
+            container.innerHTML = '';
+            
+            const posts = kol === "Semua Koleksi" ? db.jasaPosts : db.jasaPosts.filter(p => p.koleksi === kol);
+            
+            if (posts.length === 0) { 
+                container.innerHTML = `<div class="w-full text-center text-slate-500 text-sm py-8 italic border border-dashed border-slate-700 rounded-2xl">Belum ada postingan di kategori ini.</div>`; 
+                return; 
+            }
+            
+            const footerDesc = db.settings.jasaPostDesc || defaultDesc;
+            
+            posts.forEach(p => {
+                const priceFormatted = parseInt(p.harga).toLocaleString('id-ID');
+                
+                // Badge Digital Animation (Ready / Sold)
+                let badge = p.status_jual === 'Sold' 
+                    ? `<div class="absolute top-4 right-4 z-20 flex items-center justify-center"><div class="absolute inset-0 border-2 border-red-500 rounded-full animate-ping opacity-20"></div><div class="bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded shadow-[0_0_15px_red]">SOLD OUT</div></div>` 
+                    : `<div class="absolute top-4 right-4 z-20 flex items-center justify-center"><div class="digital-ring scale-[0.65] emerald"></div><div class="absolute text-emerald-400 text-[10px] font-bold z-10 animate-pulse">READY</div></div>`;
+                
+                // REVISI MAX-HEIGHT & OVERFLOW DIHAPUS agar Teks Memanjang Sempurna ke bawah
+                container.innerHTML += `
+                <div class="slider-item glass-card rounded-2xl p-5 border border-purple-500/30 relative group flex flex-col h-auto">
+                    ${badge}
+                    ${p.img ? `<div class="mb-4 rounded-xl overflow-hidden border border-slate-700 h-48 relative shrink-0"><img src="${p.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"><div class="absolute inset-0 bg-gradient-to-t from-[#050a15] to-transparent"></div></div>` : ''}
+                    
+                    <div class="mb-2"><span class="bg-purple-900/50 text-purple-300 border border-purple-500/50 text-[10px] px-2 py-1 rounded-full font-bold shadow-lg">${p.koleksi}</span></div>
+                    
+                    <div class="text-[11px] sm:text-xs text-slate-300 whitespace-pre-wrap break-words w-full font-mono bg-black/60 p-4 rounded-xl border border-slate-700/80 leading-relaxed relative z-10 shadow-inner flex-grow h-auto">
+<span class="text-purple-400 font-bold">FORMAT JASA POST AXIVO !</span>
+
+<span class="text-blue-300 font-bold">JUAL AKUN :</span>
+Login : ${p.login}
+Status : ${p.status}
+Minus : ${p.minus}
+Spek Akun : ${p.spek}
+
+<span class="text-emerald-400 font-bold">❖ Harga : Rp ${priceFormatted}</span>
+❖ Wa Penjual : <a href="https://wa.me/${p.wa.replace(/^0/, '62')}" target="_blank" class="text-blue-400 underline">${p.wa}</a>
+<hr class="border-slate-700 my-4">
+${footerDesc}
+                    </div>
+                </div>`;
+            });
+        }
+
+        // --- CONVERT FOTO (BASE64 LOKAL - ANTI GAGAL) ---
+        async function uploadToCatbox() {
+            const fileInput = document.getElementById('catbox-file'); 
+            const res = document.getElementById('catbox-result'); 
+            const btn = document.getElementById('btn-upload-catbox');
+            
+            if (!fileInput.files[0]) return showCustomAlert("Silakan pilih foto terlebih dahulu!", "error");
+            
+            btn.innerText = "Memproses (Lokal)..."; 
+            btn.disabled = true;
+            
+            const file = fileInput.files[0]; 
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas'); 
+                    const MAX = 600; // Ukuran kompresi max pixel
+                    let w = img.width; 
+                    let h = img.height;
+                    
+                    if (w > h) { if (w > MAX) { h *= MAX / w; w = MAX; } } 
+                    else { if (h > MAX) { w *= MAX / h; h = MAX; } }
+                    
+                    canvas.width = w; canvas.height = h; 
+                    const ctx = canvas.getContext('2d'); 
+                    ctx.drawImage(img, 0, 0, w, h);
+                    
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.6); // Kompres 60%
+                    
+                    res.value = dataUrl; 
+                    document.getElementById('post-img').value = dataUrl;
+                    
+                    showCustomAlert("Berhasil! Foto telah dioptimasi secara lokal dan tidak akan gagal.", "success"); 
+                    btn.innerText = "Upload & Dapatkan Link"; 
+                    btn.disabled = false;
+                }
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+
+        // --- SUBMIT JASA POST ---
+        async function submitJasaPost() {
+            const kol = document.getElementById('post-koleksi').value; 
+            const login = document.getElementById('post-login').value.trim(); 
+            const stat = document.getElementById('post-status').value.trim(); 
+            const minus = document.getElementById('post-minus').value.trim(); 
+            const spek = document.getElementById('post-spek').value.trim(); 
+            const harga = document.getElementById('post-harga').value.trim(); 
+            const wa = document.getElementById('post-wa').value.trim(); 
+            const img = document.getElementById('post-img').value.trim();
+            
+            if(!login || !harga || !wa) return showCustomAlert("Mohon isi Login, Harga, dan WA Penjual!", "error");
+            
+            db.pendingPosts.push({ id: Date.now(), koleksi: kol, login, status: stat, minus, spek, harga, wa, img, status_jual: "Ready" }); 
+            await saveDB();
+            
+            window.open(`https://wa.me/${db.settings.waNumber||'6285199706975'}?text=${encodeURIComponent(`Halo Admin, konfirmasi pengajuan Jasa Post!\n\nPoin: ${kol}\nLogin : ${login}\nHarga : Rp ${parseInt(harga).toLocaleString('id-ID')}\nWa : ${wa}`)}`, '_blank');
+            
+            showCustomAlert("Form berhasil dikirim. Silakan konfirmasi di WhatsApp.", "success");
+            
+            document.getElementById('post-login').value = ''; document.getElementById('post-status').value = ''; 
+            document.getElementById('post-minus').value = ''; document.getElementById('post-spek').value = ''; 
+            document.getElementById('post-harga').value = ''; document.getElementById('post-wa').value = ''; 
+            document.getElementById('post-img').value = ''; document.getElementById('catbox-result').value = '';
+        }
+
+        // --- SISTEM REKBER ---
+        function calculateRekberFee() { 
+            const n = parseInt(document.getElementById('calc-nominal').value) || 0; 
+            const s = document.getElementById('calc-scenario').value; 
+            let f = 0; 
+            
+            if (n > 0) { 
+                if (n < 100000) f = 5000; 
+                else if (n <= 500000) f = 10000; 
+                else if (n <= 1000000) f = 15000; 
+                else f = Math.round(20000 + (n * 0.01)); 
+            } 
+            
+            let t = 0; let r = 0; 
+            if (s === "Pembeli") { t = n + f; r = n; } 
+            else if (s === "Penjual") { t = n; r = n - f; } 
+            else if (s === "5050") { t = n + (f/2); r = n - (f/2); } 
+            
+            document.getElementById('calc-res-fee').textContent = `Rp ${f.toLocaleString('id-ID')}`; 
+            document.getElementById('calc-res-total').textContent = `Rp ${t.toLocaleString('id-ID')}`; 
+            document.getElementById('calc-res-seller').textContent = `Rp ${r.toLocaleString('id-ID')}`; 
+            
+            return { n, f, t, r, s }; 
+        }
+        
+        async function submitRekberPengajuan() { 
+            const b = document.getElementById('rekber-buyer').value.trim(); 
+            const s = document.getElementById('rekber-seller').value.trim(); 
+            const i = document.getElementById('rekber-item').value.trim(); 
+            const n = parseInt(document.getElementById('rekber-nominal-input').value) || 0; 
+            const sc = document.getElementById('rekber-scenario-input').value; 
+            
+            if(!b || !s || !i || n <= 0) return showCustomAlert("Harap lengkapi form rekber!", "error"); 
+            
+            let f = 0; 
+            if (n < 100000) f = 5000; 
+            else if (n <= 500000) f = 10000; 
+            else if (n <= 1000000) f = 15000; 
+            else f = Math.round(20000 + (n * 0.01)); 
+            
+            let t = 0, r = 0; 
+            if (sc === "Pembeli") { t = n + f; r = n; } 
+            else if (sc === "Penjual") { t = n; r = n - f; } 
+            else if (sc === "5050") { t = n + (f/2); r = n - (f/2); } 
+            
+            const inv = `RKB-${Math.floor(1000 + Math.random() * 9000)}`; 
+            
+            db.rekberTransactions.unshift({ invoice: inv, buyer: b, seller: s, item: i, nominal: n, fee: f, total: t, status: "Menunggu Pembayaran", date: new Date().toISOString().split('T')[0] }); 
+            await saveDB(); 
+            
+            window.open(`https://wa.me/${db.settings.waNumber||'6285199706975'}?text=${encodeURIComponent(`Halo Admin, Pengajuan Rekber:\nINVOICE: ${inv}\nPembeli: ${b}\nPenjual: ${s}\nNominal: Rp ${n.toLocaleString('id-ID')}\nTotal TF: Rp ${t.toLocaleString('id-ID')}\n\nIni bukti transfer saya:`)}`, '_blank'); 
+            
+            document.getElementById('rekber-buyer').value = ''; document.getElementById('rekber-seller').value = ''; 
+            document.getElementById('rekber-item').value = ''; document.getElementById('rekber-nominal-input').value = ''; 
+            
+            showCustomAlert(`Invoice: <strong>${inv}</strong> berhasil dibuat.`, "success"); 
+        }
+        
+        function searchRekberStatus() { 
+            const c = document.getElementById('search-invoice-input').value.trim().toUpperCase(); 
+            const r = document.getElementById('rekber-status-result'); 
+            if(!c) { r.classList.add('hidden'); return; } 
+            
+            const f = db.rekberTransactions.find(x => x.invoice.toUpperCase() === c); 
+            r.classList.remove('hidden'); 
+            
+            if(f) { 
+                let cl = "bg-yellow-500/20 text-yellow-300"; 
+                if(f.status === "Selesai") cl = "bg-emerald-500/20 text-emerald-300"; 
+                if(f.status === "Batal / Refund") cl = "bg-red-500/20 text-red-300"; 
+                
+                r.className = "p-4 rounded-2xl bg-black/60 border border-slate-700 text-xs mt-4"; 
+                r.innerHTML = `<div class="flex justify-between border-b border-slate-800 pb-2"><span class="font-bold text-white">${f.invoice}</span><span class="px-2 rounded ${cl}">${f.status}</span></div><div class="mt-2 text-slate-300">Total TF: <strong class="text-emerald-400">Rp ${parseInt(f.total).toLocaleString('id-ID')}</strong></div><button onclick="generateReceipt('${f.invoice}')" class="mt-3 w-full bg-cyan-600 text-white py-2 rounded-lg font-bold shadow-lg">Unduh Struk Transaksi</button>`; 
+            } else { 
+                r.className = "p-4 rounded-2xl bg-red-950/40 border border-red-500/40 text-xs text-red-200 mt-4"; 
+                r.innerHTML = `Invoice tidak ditemukan.`; 
+            } 
+        }
+        
+        function generateReceipt(inv) { 
+            const t = db.rekberTransactions.find(r => r.invoice === inv); 
+            if(!t) return; 
+            
+            document.getElementById('rec-inv').textContent = t.invoice; 
+            document.getElementById('rec-date').textContent = t.date; 
+            document.getElementById('rec-buyer').textContent = t.buyer; 
+            document.getElementById('rec-seller').textContent = t.seller; 
+            document.getElementById('rec-item').textContent = t.item; 
+            document.getElementById('rec-total').textContent = `Rp ${parseInt(t.total).toLocaleString('id-ID')}`; 
+            document.getElementById('rec-logo').src = db.profile.photo; 
+            
+            const w = document.getElementById('rec-status-watermark'); 
+            if(t.status === 'Selesai') w.textContent = 'LUNAS'; 
+            else if(t.status === 'Batal / Refund') w.textContent = 'REFUND'; 
+            else w.textContent = 'PROSES'; 
+            
+            setTimeout(() => { 
+                html2canvas(document.getElementById('receipt-box'), { backgroundColor: '#0a1128', scale: 3, useCORS: true }).then(canvas => { 
+                    const a = document.createElement('a'); 
+                    a.href = canvas.toDataURL("image/png"); 
+                    a.download = `Struk_${t.invoice}.png`; 
+                    document.body.appendChild(a); a.click(); a.remove(); 
+                }); 
+            }, 500); 
+        }
+
+        // --- SISTEM BLACKLIST ---
+        function toggleLaporForm() { document.getElementById('lapor-penipu-box').classList.toggle('hidden'); }
+        
+        async function submitLaporPenipu() { 
+            const id = document.getElementById('lapor-id').value.trim(); 
+            if(!id) return showCustomAlert("ID/Tagar wajib diisi!", "error"); 
+            
+            db.pendingBlacklist.push({ 
+                id, 
+                game: document.getElementById('lapor-game').value, 
+                phone: document.getElementById('lapor-phone').value.trim(), 
+                payment: document.getElementById('lapor-payment').value.trim(), 
+                reason: document.getElementById('lapor-reason').value.trim(), 
+                date: new Date().toISOString().split('T')[0] 
+            }); 
+            await saveDB(); 
+            toggleLaporForm(); 
+            showCustomAlert("Pengaduan terkirim ke sistem!", "success"); 
+        }
+        
+        function sendLaporWA() { 
+            window.open(`https://wa.me/${db.settings.waNumber||'6285199706975'}?text=${encodeURIComponent(`🚨 LAPORAN PENIPUAN BARU\nAdmin, saya melaporkan penipu ke blacklist. Berikut buktinya:`)}`, '_blank'); 
+        }
+        
+        function searchBlacklist() { 
+            const q = document.getElementById('searchInput').value.trim(); 
+            const r = document.getElementById('searchResult'); 
+            if(!q) { r.style.display = 'none'; return; } 
+            
+            r.style.display = 'block'; 
+            r.className = 'mt-4 p-5 rounded-2xl bg-black border border-emerald-500/40 text-emerald-400 font-mono text-xs shadow-lg'; 
+            r.innerHTML = `<div class="terminal-text">> Checking secure database...</div>`; 
+            
+            setTimeout(() => { 
+                const f = db.blacklist.find(b => b.id.toLowerCase() === q.toLowerCase() || b.phone.includes(q) || b.payment.toLowerCase().includes(q.toLowerCase())); 
+                if (f) { 
+                    r.className = 'mt-4 p-5 rounded-2xl bg-[#2A1115]/90 border border-red-900 text-slate-200'; 
+                    r.innerHTML = `<div class="font-bold text-red-400 mb-2">AWAS! Data "${f.id}" terdaftar penipu.</div><div class="text-[13px] text-slate-300">Game: ${f.game}<br>No HP: ${f.phone}<br>Payment: ${f.payment}<br>Ket: ${f.reason}</div>`; 
+                } else { 
+                    r.className = 'mt-4 text-sm p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-100'; 
+                    r.innerHTML = `Data <strong>"${q}"</strong> tidak ditemukan. Status Aman.`; 
+                } 
+            }, 1000); 
+        }
+
+        // --- SISTEM KATALOG & QRIS ---
+        function openQris(name, price) { 
+            currentCheckoutItem = name; 
+            currentCheckoutPrice = parseInt(price); 
+            appliedDiscount = 0; 
+            
+            document.getElementById('modalItemName').textContent = name; 
+            document.getElementById('modalItemPrice').classList.add('hidden'); 
+            document.getElementById('modalFinalPrice').textContent = `Rp ${currentCheckoutPrice.toLocaleString('id-ID')}`; 
+            document.getElementById('qris-img-view').src = db.settings.qrisImg; 
+            document.getElementById('voucher-input').value = ""; 
+            openModal('qrisModal', 'qrisBox'); 
+        }
+        
+        function downloadQRIS() { 
+            const a = document.createElement('a'); 
+            a.href = db.settings.qrisImg; 
+            a.target = '_blank'; 
+            a.download = 'QRIS.png'; 
+            document.body.appendChild(a); 
+            a.click(); 
+            a.remove(); 
+        }
+        
+        function applyVoucher() { 
+            const c = document.getElementById('voucher-input').value.trim().toUpperCase(); 
+            const v = db.vouchers.find(x => x.code.toUpperCase() === c); 
+            
+            if(v) { 
+                appliedDiscount = v.type === "percent" ? currentCheckoutPrice * (v.value / 100) : v.value; 
+                let f = currentCheckoutPrice - appliedDiscount; 
+                if(f < 0) f = 0; 
+                
+                document.getElementById('modalItemPrice').textContent = `Rp ${currentCheckoutPrice.toLocaleString('id-ID')}`; 
+                document.getElementById('modalItemPrice').classList.remove('hidden'); 
+                document.getElementById('modalFinalPrice').textContent = `Rp ${f.toLocaleString('id-ID')}`; 
+                showCustomAlert(`Kupon berhasil digunakan!`, 'success'); 
+            } else { 
+                appliedDiscount = 0; 
+                showCustomAlert(`Kupon tidak valid.`, 'error'); 
+            } 
+        }
+        
+        function confirmPayment() { 
+            let f = currentCheckoutPrice - appliedDiscount; 
+            window.open(`https://wa.me/${db.settings.waNumber||'6285199706975'}?text=Halo%20Admin,%20saya%20sudah%20transfer%20untuk%20*${currentCheckoutItem}*%20Total%20*Rp%20${f.toLocaleString('id-ID')}*.%0A%0ABerikut%20bukti%20transfernya.`, '_blank'); 
+            closeModal('qrisModal', 'qrisBox'); 
+        }
+
+        // --- SISTEM TESTIMONI ---
+        function setRating(val) { 
+            selectedStarRating = val; 
+            document.querySelectorAll('.star-btn').forEach(s => { 
+                if(parseInt(s.dataset.val) <= val) { s.classList.remove('text-slate-600'); s.classList.add('text-yellow-400'); } 
+                else { s.classList.remove('text-yellow-400'); s.classList.add('text-slate-600'); } 
+            }); 
+        }
+        
+        async function submitPublicTestimoni() { 
+            const n = document.getElementById('pub-testi-name').value.trim(); 
+            const t = document.getElementById('pub-testi-desc').value.trim(); 
+            
+            if(!n || !t) return showCustomAlert("Nama dan isi testimoni wajib diisi!", "error"); 
+            
+            db.testimonials.unshift({ id: Date.now(), user: n, item: document.getElementById('pub-testi-item').value.trim() || "Layanan Rekber", text: t, rating: selectedStarRating }); 
+            await saveDB(); 
+            renderUserView(); 
+            
+            document.getElementById('pub-testi-name').value = ''; 
+            document.getElementById('pub-testi-item').value = ''; 
+            document.getElementById('pub-testi-desc').value = ''; 
+            setRating(5); 
+            showCustomAlert("Terima kasih! Testimoni dikirim.", "success"); 
+        }
+
+        // --- SISTEM AUDIO ---
+        function toggleMusic() { 
+            const a = document.getElementById('bg-audio'); 
+            const i = document.getElementById('music-icon'); 
+            
+            if(!db.settings.bgMusic) return showCustomAlert("Link audio belum disetel Admin.", "info"); 
+            
+            if(isMusicPlaying) { 
+                a.pause(); isMusicPlaying = false; 
+                i.className = 'fa-solid fa-music text-xs z-10 transition-all text-cyan-400'; 
+            } else { 
+                a.play(); isMusicPlaying = true; 
+                i.className = 'fa-solid fa-pause text-xs z-10 animate-pulse text-emerald-400 transition-all'; 
+            } 
+        }
+
+        // ================= FULL ADMIN PANEL SCRIPT =================
+        function openAdminLogin() { openModal('loginModal', 'loginBox'); }
+        
+        function loginAdmin() { 
+            if(document.getElementById('adminPassword').value === 'Seputargelas12') { 
+                closeModal('loginModal', 'loginBox'); 
+                document.getElementById('adminPanel').classList.remove('hidden'); 
+                document.body.classList.add('modal-open'); 
+                setTimeout(()=>document.getElementById('adminPanel').classList.remove('opacity-0'),50); 
+                document.getElementById('adminPassword').value = ''; 
+                
+                loadAdminData(); 
+                
+                // Init Bulk forms if empty
+                if(document.getElementById('bulk-cat-container').innerHTML === '') addCatRow(); 
+                if(document.getElementById('bulk-bl-container').innerHTML === '') addBlRow(); 
+                if(document.getElementById('bulk-voucher-container').innerHTML === '') addVoucherRow(); 
+            } else { 
+                showCustomAlert('Password Salah!', 'error'); 
+            } 
+        }
+        
+        async function closeAdminPanel() { 
+            await saveProfile(false); 
+            document.getElementById('adminPanel').classList.add('opacity-0'); 
+            setTimeout(()=>{ document.getElementById('adminPanel').classList.add('hidden'); document.body.classList.remove('modal-open'); }, 300); 
+            renderUserView(); 
+        }
+        
+        function switchTab(t) { 
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active')); 
+            document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active')); 
+            document.getElementById(t).classList.add('active'); 
+            event.target.classList.add('active'); 
+            window.scrollTo(0,0); 
+        }
+        
+        function loadAdminData() {
+            if(!db) return;
+            
+            // Tab Profil
+            document.getElementById('edit-name').value = db.profile.name; 
+            document.getElementById('edit-role').value = db.profile.role; 
+            document.getElementById('edit-loc').value = db.profile.location; 
+            document.getElementById('edit-photo').value = db.profile.photo; 
+            document.getElementById('edit-bio').value = db.profile.bio;
+            
+            document.getElementById('edit-fb').value = db.socials.facebook; 
+            document.getElementById('edit-tg').value = db.socials.telegram; 
+            document.getElementById('edit-ig').value = db.socials.instagram;
+            
+            document.getElementById('edit-base-tx').value = db.settings.baseSuccessTx||150; 
+            setCustomDropdown('edit-admin-status', db.settings.adminStatus||'Online'); 
+            document.getElementById('edit-wa-num').value = db.settings.waNumber; 
+            document.getElementById('edit-qris').value = db.settings.qrisImg; 
+            document.getElementById('edit-music').value = db.settings.bgMusic; 
+            document.getElementById('edit-flash-date').value = db.settings.flashSaleEnd; 
+            document.getElementById('edit-flash').value = db.settings.flashInfo;
+            
+            document.getElementById('edit-jasapost-desc').value = db.settings.jasaPostDesc || defaultDesc;
+
+            // Render Jasa Post Admin
+            const pPL = document.getElementById('admin-pending-post-list'); 
+            if(pPL && db.pendingPosts) { 
+                pPL.innerHTML = ''; 
+                db.pendingPosts.forEach((p, idx) => { 
+                    pPL.innerHTML += `<div class="bg-purple-900/20 border border-purple-500/40 rounded-xl p-3 text-xs mb-2"><div class="grid grid-cols-2 gap-1 mb-2 text-slate-300"><div>Login: <strong class="text-white">${p.login}</strong></div><div>Harga: <strong class="text-white">Rp ${parseInt(p.harga).toLocaleString('id-ID')}</strong></div><div class="col-span-2">Koleksi: <strong class="text-white">${p.koleksi}</strong></div></div><div class="flex gap-2"><button onclick="approveJasaPost(${idx})" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 rounded font-bold shadow-lg">Terima & Publish</button><button onclick="rejectJasaPost(${idx})" class="bg-red-900/40 border border-red-500/30 text-red-300 hover:bg-red-600 px-3 py-1.5 rounded">Tolak</button></div></div>`; 
+                }); 
+            }
+            
+            const aPL = document.getElementById('admin-active-post-list'); 
+            if(aPL && db.jasaPosts) { 
+                aPL.innerHTML = ''; 
+                db.jasaPosts.forEach((p, idx) => { 
+                    const sB = p.status_jual === 'Sold' 
+                        ? `<button onclick="toggleJasaPostStatus(${idx})" class="bg-emerald-900/40 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-600 px-3 py-1 rounded">Ubah ke READY</button>` 
+                        : `<button onclick="toggleJasaPostStatus(${idx})" class="bg-red-900/40 border border-red-500/40 text-red-400 hover:bg-red-600 px-3 py-1 rounded">Ubah ke SOLD</button>`; 
+                        
+                    aPL.innerHTML += `<div class="bg-slate-800/80 border border-slate-700 rounded-xl p-3 flex justify-between items-center text-xs gap-3"><div><div class="font-bold text-white mb-1">${p.login} <span class="bg-slate-700 px-1 rounded ml-1">${p.status_jual}</span></div><div class="text-purple-300 text-[10px]">${p.koleksi}</div><div class="text-emerald-400 font-bold">Rp ${parseInt(p.harga).toLocaleString('id-ID')}</div></div><div class="flex gap-2">${sB}<button onclick="deleteJasaPost(${idx})" class="bg-red-900/30 border border-red-500/30 text-red-400 hover:bg-red-600 px-3 py-1 rounded"><i class="fa-solid fa-trash"></i></button></div></div>`; 
+                }); 
+            }
+
+            // Render Voucher
+            const vL = document.getElementById('admin-voucher-list'); 
+            vL.innerHTML = ''; 
+            db.vouchers.forEach((v, i) => { 
+                vL.innerHTML += `<div class="bg-slate-800/80 border border-blue-500/30 rounded-xl p-3"><div class="mb-2"><input type="text" id="vou-code-${i}" value="${v.code}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white uppercase focus:outline-none"></div><div class="grid grid-cols-2 gap-2 mb-3"><div>${buildDropdownHTML(`vou-type-${i}`, [{val:'fixed',text:'Rp'},{val:'percent',text:'%'}], v.type)}</div><div><input type="number" id="vou-val-${i}" value="${v.value}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none"></div></div><div class="flex gap-2"><button onclick="updateVoucher(${i})" class="flex-1 bg-blue-600 text-white py-1.5 rounded-lg text-xs font-bold">Simpan</button><button onclick="delVoucher(${i})" class="bg-red-900/30 text-red-400 px-3 py-1.5 rounded-lg text-xs"><i class="fa-solid fa-trash"></i></button></div></div>`; 
+            });
+            
+            // Render Catalog
+            const cL = document.getElementById('admin-catalog-list'); 
+            cL.innerHTML = ''; 
+            db.catalog.forEach((c, i) => { 
+                cL.innerHTML += `<div class="bg-slate-800/80 border border-emerald-500/30 rounded-xl p-4 group"><div class="grid grid-cols-2 gap-2 mb-2"><input type="text" id="cat-name-${i}" value="${c.name}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white"><input type="text" id="cat-category-${i}" value="${c.category}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white"></div><div class="grid grid-cols-3 gap-2 mb-2"><input type="text" id="cat-badge-${i}" value="${c.badge}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white"><input type="text" id="cat-price-${i}" value="${c.price}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white">${buildDropdownHTML(`cat-stock-${i}`, [{val:'Ready',text:'Ready'},{val:'PO',text:'PO'},{val:'Habis',text:'Habis'}], c.stock)}</div><input type="text" id="cat-img-${i}" value="${c.img}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white mb-2"><textarea id="cat-desc-${i}" rows="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white mb-3">${c.desc}</textarea><div class="flex gap-2"><button onclick="updateCatalog(${i})" class="flex-1 bg-emerald-600 text-white py-1.5 rounded-lg text-xs font-bold">Simpan</button><button onclick="delCatalog(${i})" class="bg-red-900/30 text-red-400 px-3 py-1.5 rounded-lg text-xs"><i class="fa-solid fa-trash"></i></button></div></div>`; 
+            });
+            
+            // Render Blacklist
+            const pBL = document.getElementById('admin-pending-bl-list'); 
+            pBL.innerHTML = ''; 
+            if(!db.pendingBlacklist.length) pBL.innerHTML = `<div class="text-xs text-slate-400">Tidak ada pengaduan pending.</div>`; 
+            else db.pendingBlacklist.forEach((p, i) => { pBL.innerHTML += `<div class="bg-black/60 border border-orange-500/30 rounded-xl p-3 text-xs mb-2"><div class="font-bold text-white">${p.id} (${p.game})</div><div class="text-slate-300">HP: ${p.phone} | Pay: ${p.payment}</div><div class="flex gap-2 pt-2"><button onclick="approveBlacklist(${i})" class="flex-1 bg-emerald-600 text-white py-1 rounded">Terima</button><button onclick="rejectBlacklist(${i})" class="bg-red-900/40 text-red-300 px-3 py-1 rounded">Tolak</button></div></div>`; });
+            
+            const bL = document.getElementById('admin-bl-list'); 
+            bL.innerHTML = ''; 
+            db.blacklist.forEach((b, i) => { 
+                bL.innerHTML += `<div class="bg-red-950/20 border border-red-900/50 rounded-xl p-4"><div class="grid grid-cols-2 gap-2 mb-2"><input type="text" id="bl-id-${i}" value="${b.id}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white"><input type="text" id="bl-game-${i}" value="${b.game}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white"></div><div class="grid grid-cols-2 gap-2 mb-2"><input type="text" id="bl-phone-${i}" value="${b.phone}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white"><input type="text" id="bl-payment-${i}" value="${b.payment}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white"></div><textarea id="bl-reason-${i}" rows="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white mb-3">${b.reason}</textarea><div class="flex gap-2"><button onclick="updateBL(${i})" class="flex-1 bg-red-600 text-white py-1.5 rounded-lg text-xs font-bold">Simpan</button><button onclick="delBL(${i})" class="bg-slate-800 text-slate-400 px-3 py-1.5 rounded-lg text-xs"><i class="fa-solid fa-trash"></i></button></div></div>`; 
+            });
+            
+            // Render Rekber
+            const rL = document.getElementById('admin-rekber-list'); 
+            rL.innerHTML = ''; 
+            db.rekberTransactions.forEach((r, i) => { 
+                rL.innerHTML += `<div class="bg-slate-800/80 border border-indigo-500/30 rounded-xl p-4"><div class="flex justify-between font-bold text-white text-xs mb-2"><span>${r.invoice}</span><div class="w-48">${buildDropdownHTML(`rekber-status-${i}`, [{val:'Menunggu Pembayaran',text:'Menunggu Pembayaran'},{val:'Dana Diamankan',text:'Dana Diamankan'},{val:'Selesai',text:'Selesai'},{val:'Batal / Refund',text:'Batal / Refund'}], r.status, `updateRekberStatus(${i})`)}</div></div><div class="text-xs text-slate-300">Total: Rp ${parseInt(r.total).toLocaleString('id-ID')}</div><button onclick="delRekber(${i})" class="mt-2 bg-red-900/30 text-red-400 px-3 py-1 rounded text-[10px]"><i class="fa-solid fa-trash"></i> Hapus Rekber</button></div>`; 
+            });
+            
+            // Render Testi & FAQ
+            const tL = document.getElementById('admin-testi-list'); 
+            tL.innerHTML = ''; 
+            db.testimonials.forEach((t, i) => { 
+                tL.innerHTML += `<div class="bg-slate-800/80 border border-emerald-500/30 rounded-xl p-4"><div class="flex justify-between"><div><div class="font-bold text-white text-sm">${t.user}</div><div class="text-[10px] text-emerald-400">${t.item}</div></div><button onclick="delTesti(${i})" class="bg-red-900/30 text-red-400 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button></div><div class="text-xs text-slate-300 italic mt-2">"${t.text}"</div></div>`; 
+            });
+            
+            const fL = document.getElementById('admin-faq-list'); 
+            fL.innerHTML = ''; 
+            db.faqs.forEach((f, i) => { 
+                fL.innerHTML += `<div class="bg-slate-800/80 border border-slate-700 rounded-xl p-3"><input type="text" id="faq-q-${i}" value="${f.q}" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white mb-2"><textarea id="faq-a-${i}" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white mb-2">${f.a}</textarea><div class="flex gap-2"><button onclick="updateFaq(${i})" class="flex-1 bg-cyan-600 text-white py-1 rounded text-xs font-bold shadow">Simpan FAQ</button><button onclick="delFaq(${i})" class="bg-red-900/30 text-red-400 px-3 py-1 rounded text-xs"><i class="fa-solid fa-trash"></i></button></div></div>`; 
+            });
+            
+            initCustomDropdowns();
+        }
+
+        // Simpan Profil
+        async function saveProfile(alert=false) { 
+            db.profile.name = document.getElementById('edit-name').value; 
+            db.profile.role = document.getElementById('edit-role').value; 
+            db.profile.location = document.getElementById('edit-loc').value; 
+            db.profile.photo = document.getElementById('edit-photo').value; 
+            db.profile.bio = document.getElementById('edit-bio').value; 
+            
+            db.socials.facebook = document.getElementById('edit-fb').value; 
+            db.socials.telegram = document.getElementById('edit-tg').value; 
+            db.socials.instagram = document.getElementById('edit-ig').value; 
+            
+            db.settings.baseSuccessTx = parseInt(document.getElementById('edit-base-tx').value)||0; 
+            db.settings.adminStatus = document.getElementById('edit-admin-status').value; 
+            db.settings.waNumber = document.getElementById('edit-wa-num').value; 
+            db.settings.qrisImg = document.getElementById('edit-qris').value; 
+            db.settings.bgMusic = document.getElementById('edit-music').value; 
+            db.settings.flashSaleEnd = document.getElementById('edit-flash-date').value; 
+            db.settings.flashInfo = document.getElementById('edit-flash').value; 
+            
+            await saveDB(); 
+            if(alert) showCustomAlert('Pengaturan Profil berhasil disimpan!', 'success'); 
+        }
+
+        // Admin Jasa Post Actions
+        async function saveJasaPostDesc() { 
+            db.settings.jasaPostDesc = document.getElementById('edit-jasapost-desc').value; 
+            await saveDB(); 
+            showCustomAlert('Keterangan footer Jasa Post berhasil disimpan!', 'success'); 
+        }
+        async function toggleJasaPostStatus(idx) { 
+            db.jasaPosts[idx].status_jual = db.jasaPosts[idx].status_jual === 'Sold' ? 'Ready' : 'Sold'; 
+            await saveDB(); 
+            loadAdminData(); 
+        }
+        async function approveJasaPost(idx) { 
+            db.jasaPosts.unshift(db.pendingPosts[idx]); 
+            db.pendingPosts.splice(idx, 1); 
+            await saveDB(); 
+            loadAdminData(); 
+            showCustomAlert('Postingan disetujui & tayang di Slider Portofolio!', 'success'); 
+        }
+        async function rejectJasaPost(idx) { 
+            db.pendingPosts.splice(idx, 1); 
+            await saveDB(); 
+            loadAdminData(); 
+            showCustomAlert('Pengajuan ditolak.', 'info'); 
+        }
+        async function deleteJasaPost(idx) { 
+            showCustomConfirm('Takedown postingan ini dari slider?', async () => { 
+                db.jasaPosts.splice(idx, 1); 
+                await saveDB(); 
+                loadAdminData(); 
+                showCustomAlert('Ditakedown.', 'info'); 
+            }); 
+        }
+
+        // Admin Voucher Actions (Bulk Add)
+        function addVoucherRow() { 
+            const c = document.getElementById('bulk-voucher-container'); 
+            const d = document.createElement('div'); 
+            d.className = 'bg-black/40 border border-blue-900/50 p-3 rounded-xl grid grid-cols-1 sm:grid-cols-4 gap-2 pr-10 relative'; 
+            d.innerHTML = `<input type="text" placeholder="KODE" class="col-span-1 sm:col-span-2 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white uppercase">${buildDropdownHTML('nvt', [{val:'fixed',text:'Rp'},{val:'percent',text:'%'}], 'fixed')}<input type="number" placeholder="Nilai" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white"><button onclick="this.parentElement.remove()" class="absolute right-2 top-2 bg-red-900/50 text-red-400 p-1.5 rounded"><i class="fa-solid fa-trash"></i></button>`; 
+            c.appendChild(d); 
+            initCustomDropdowns(); 
+        }
+        async function saveBulkVoucher() { 
+            let added=0; 
+            document.querySelectorAll('#bulk-voucher-container > div').forEach(r => { 
+                const i = r.querySelectorAll('input'); 
+                if(i[0].value) { 
+                    db.vouchers.push({ code: i[0].value.toUpperCase(), type: r.querySelector('input[type="hidden"]').value, value: parseInt(i[2].value) }); 
+                    added++; 
+                } 
+            }); 
+            if(added) { 
+                await saveDB(); 
+                loadAdminData(); 
+                document.getElementById('bulk-voucher-container').innerHTML = ''; 
+                addVoucherRow(); 
+                showCustomAlert(`${added} promo ditambahkan!`, 'success'); 
+            } 
+        }
+        async function updateVoucher(i) { 
+            db.vouchers[i].code = document.getElementById(`vou-code-${i}`).value.toUpperCase(); 
+            db.vouchers[i].type = document.getElementById(`vou-type-${i}`).value; 
+            db.vouchers[i].value = parseInt(document.getElementById(`vou-val-${i}`).value); 
+            await saveDB(); showCustomAlert('Voucher Diperbarui!', 'success'); 
+        }
+        async function delVoucher(i) { db.vouchers.splice(i, 1); await saveDB(); loadAdminData(); }
+
+        // Admin Catalog Actions (Bulk Add Lengkap)
+        function addCatRow() { 
+            const c = document.getElementById('bulk-cat-container'); 
+            const d = document.createElement('div'); 
+            d.className = 'bg-black/40 border border-emerald-900/50 p-3 rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-2 pr-10 relative'; 
+            d.innerHTML = `
+                <input type="text" placeholder="Nama Produk" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                <input type="text" placeholder="Kategori" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                <input type="number" placeholder="Harga (Rp)" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                <input type="text" placeholder="URL Gambar" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                <textarea placeholder="Deskripsi Singkat" rows="1" class="col-span-1 sm:col-span-2 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white"></textarea>
+                <button onclick="this.parentElement.remove()" class="absolute right-2 top-2 bg-red-900/50 text-red-400 p-1.5 rounded"><i class="fa-solid fa-trash"></i></button>`; 
+            c.appendChild(d); 
+        }
+        async function saveBulkCatalog() { 
+            let added = 0; 
+            document.querySelectorAll('#bulk-cat-container > div').forEach(r => { 
+                const inputs = r.querySelectorAll('input, textarea'); 
+                if(inputs[0].value) { 
+                    db.catalog.push({ 
+                        id: Date.now() + Math.random(), 
+                        name: inputs[0].value, 
+                        category: inputs[1].value || "Lainnya", 
+                        badge: "", 
+                        price: inputs[2].value || 0, 
+                        img: inputs[3].value || "https://placehold.co/400x250/3b82f6/ffffff?text=IMG", 
+                        desc: inputs[4].value || "", 
+                        stock: "Ready" 
+                    }); 
+                    added++; 
+                } 
+            }); 
+            if(added) { 
+                await saveDB(); 
+                loadAdminData(); 
+                document.getElementById('bulk-cat-container').innerHTML=''; 
+                addCatRow(); 
+                showCustomAlert(`${added} produk ditambahkan!`, 'success'); 
+            } 
+        }
+        async function updateCatalog(i) { 
+            db.catalog[i].name = document.getElementById(`cat-name-${i}`).value; 
+            db.catalog[i].category = document.getElementById(`cat-category-${i}`).value; 
+            db.catalog[i].badge = document.getElementById(`cat-badge-${i}`).value; 
+            db.catalog[i].price = document.getElementById(`cat-price-${i}`).value; 
+            db.catalog[i].stock = document.getElementById(`cat-stock-${i}`).value; 
+            db.catalog[i].img = document.getElementById(`cat-img-${i}`).value; 
+            db.catalog[i].desc = document.getElementById(`cat-desc-${i}`).value; 
+            await saveDB(); showCustomAlert('Katalog Diperbarui!', 'success'); 
+        }
+        async function delCatalog(i) { db.catalog.splice(i, 1); await saveDB(); loadAdminData(); }
+
+        // Admin Blacklist Actions (Bulk Add Lengkap)
+        function addBlRow() { 
+            const c = document.getElementById('bulk-bl-container'); 
+            const d = document.createElement('div'); 
+            d.className = 'bg-black/40 border border-red-900/50 p-3 rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-2 pr-10 relative'; 
+            d.innerHTML = `
+                <input type="text" placeholder="ID/Tagar" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                <input type="text" placeholder="Nama Game" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                <input type="text" placeholder="No HP" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                <input type="text" placeholder="Rekening/E-Wallet" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
+                <textarea placeholder="Kronologi Singkat" rows="1" class="col-span-1 sm:col-span-2 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white"></textarea>
+                <button onclick="this.parentElement.remove()" class="absolute right-2 top-2 bg-red-900/50 text-red-400 p-1.5 rounded"><i class="fa-solid fa-trash"></i></button>`; 
+            c.appendChild(d); 
+        }
+        async function saveBulkBlacklist() { 
+            let added = 0; 
+            document.querySelectorAll('#bulk-bl-container > div').forEach(r => { 
+                const inputs = r.querySelectorAll('input, textarea'); 
+                if(inputs[0].value) { 
+                    db.blacklist.push({ 
+                        id: inputs[0].value, 
+                        game: inputs[1].value || "Lainnya", 
+                        phone: inputs[2].value || "-", 
+                        payment: inputs[3].value || "-", 
+                        reason: inputs[4].value || "" 
+                    }); 
+                    added++; 
+                } 
+            }); 
+            if(added) { 
+                await saveDB(); 
+                loadAdminData(); 
+                document.getElementById('bulk-bl-container').innerHTML=''; 
+                addBlRow(); 
+                showCustomAlert(`${added} data blacklist ditambahkan!`, 'success'); 
+            } 
+        }
+        async function approveBlacklist(i) { 
+            db.blacklist.push(db.pendingBlacklist[i]); 
+            db.pendingBlacklist.splice(i, 1); 
+            await saveDB(); loadAdminData(); 
+        }
+        async function rejectBlacklist(i) { 
+            db.pendingBlacklist.splice(i, 1); 
+            await saveDB(); loadAdminData(); 
+        }
+        async function updateBL(i) { 
+            db.blacklist[i].id = document.getElementById(`bl-id-${i}`).value; 
+            db.blacklist[i].game = document.getElementById(`bl-game-${i}`).value; 
+            db.blacklist[i].phone = document.getElementById(`bl-phone-${i}`).value; 
+            db.blacklist[i].payment = document.getElementById(`bl-payment-${i}`).value; 
+            db.blacklist[i].reason = document.getElementById(`bl-reason-${i}`).value; 
+            await saveDB(); showCustomAlert('Blacklist Diperbarui!', 'success'); 
+        }
+        async function delBL(i) { db.blacklist.splice(i, 1); await saveDB(); loadAdminData(); }
+
+        // Admin Other Actions (Rekber, Testi, FAQ)
+        async function updateRekberStatus(i) { 
+            db.rekberTransactions[i].status = document.getElementById(`rekber-status-${i}`).value; 
+            await saveDB(); showCustomAlert('Status Rekber diperbarui!', 'success'); 
+        }
+        async function delRekber(i) { db.rekberTransactions.splice(i, 1); await saveDB(); loadAdminData(); }
+        async function delTesti(i) { db.testimonials.splice(i, 1); await saveDB(); loadAdminData(); }
+        function addFaqRow() { db.faqs.push({ q: "Pertanyaan baru?", a: "Jawaban baru..." }); loadAdminData(); }
+        async function updateFaq(i) { 
+            db.faqs[i].q = document.getElementById(`faq-q-${i}`).value; 
+            db.faqs[i].a = document.getElementById(`faq-a-${i}`).value; 
+            await saveDB(); showCustomAlert('FAQ Diperbarui!', 'success'); 
+        }
+        async function delFaq(i) { db.faqs.splice(i, 1); await saveDB(); loadAdminData(); }
+
+        // Initialize & Observes
+        fetchDB(); 
+        
+        setInterval(() => { 
+            const c = document.getElementById('realtime-clock'); 
+            if(c) c.textContent = new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(new Date()).replace(/\./g, ':'); 
+        }, 1000);
+        
+        function triggerScrollAnim() { 
+            const ob = new IntersectionObserver(e => { 
+                e.forEach(x => { if (x.isIntersecting) x.target.classList.add('show'); }); 
+            }, { threshold: 0.1 }); 
+            document.querySelectorAll('.scroll-popup').forEach(el => ob.observe(el)); 
+        }
+    </script>
+</body>
+</html>
